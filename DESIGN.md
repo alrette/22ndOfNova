@@ -29,7 +29,7 @@ Judul kerja: *A Universe Written for You*. **[user]**
 ### Non-goals
 - Simulasi galaksi 3D. Langit adalah 2D (SVG dan canvas). **[user, lewat konsep yang disetujui]**
 - Backend, akun, analytics, atau pelacakan apa pun. **[call Claude]**
-- Musik atau suara yang bunyi otomatis. **[call Claude]**
+- Musik atau suara yang bunyi otomatis. **[call Claude]** (Sound effect ada, tapi dia sendiri yang memilih "Begin with sound" atau "Begin quietly" di opening, lihat bagian 7.)
 - Statistik hubungan nasional atau probabilitas yang diklaim sebagai fakta. Hanya angka personal, atau angka bersumber dengan penjelasan jujur. **[user, lewat konsep yang disetujui]**
 - Mengunci surat atau doa di balik game yang sulit. Eksplorasi harus terasa menyenangkan, bukan tugas. **[user, lewat konsep yang disetujui]**
 
@@ -161,4 +161,10 @@ Posisi tepatnya tiap bintang, urutan visual peta, pemilihan font final, timing d
 - Hosting: GitHub Pages atau Cloudflare Pages. **[user]** Keduanya statis. GitHub Pages melayani situs dari subpath `/nama-repo/`, jadi `base: './'` wajib; Cloudflare Pages melayani dari root. README berisi langkah singkat untuk keduanya.
 - Video singkat menggantikan voice note. **[user]** Lihat Struktur pengalaman nomor 5.
 - Kalimat yang ingin dia ingat: "I'm glad I attended YCC." **[user]** Kalimat ini adalah pembayaran emosional dari seluruh cerita. Builder menyusun copy dan pacing supaya kalimat ini baru muncul di akhir (layar final alignment, lalu diulang kecil di footer), dan bintang pertama (The first light) bercerita tentang YCC sehingga kalimat itu bermakna saat dibaca. Kalimat ini tidak dipakai di opening. **[call Claude]** "YCC" diperlakukan sebagai acara atau tempat pertama kali mereka bertemu. Itu tebakan, dan builder tidak mengarang kepanjangan atau ceritanya; detailnya diisi pembuat di `content.js`.
+- **Tambahan 20 Oktober 2026** **[user setuju semuanya]**:
+  - *Langit asli saat bertemu.* Di awal "The first light" tampil peta langit melingkar untuk South Quarter, Cilandak, 7 Juli 2025 sekitar pukul 12.00 WIB **[user]**: bintang asli (katalog d3-celestial, BSD-3), garis konstelasi, Bima Sakti, Matahari, Bulan, dan planet. Karena siang, ada keterangan jujur bahwa cahaya siang menyembunyikan semuanya. Lokasi dan jam bisa diubah di `skyMoment`. **[detail call Claude]**
+  - *Foto terakhir* di finale setelah kalimat YCC (`finale.photo`), di samping teks pada layar lebar.
+  - *Balasan via WhatsApp* di akhir surat (`reply.phone`).
+  - *Our song*: tombol yang baru memuat embed Spotify saat ditekan (`song.spotifyUrl`). Lagu tidak di-upload sebagai file.
+  - *Sound effect* disintesis Web Audio, tanpa file: tiap bintang punya nada dari satu skala pentatonik, komet berbunyi whoosh, warp, akor saat alignment, suara kertas di surat. Pilihan suara di opening, tombol on/off di bar, diingat di perangkat. Semua field opsional tersembunyi kalau kosong; build preview menampilkan placeholder.
 - Urutan penutup: kelima bintang terbuka, konstelasi menyatu, "I'm glad I attended YCC", lalu video (jika ada) dan tombol surat. Di dalam surat ada amplop untuk tahun depan, dan footer mengulang kalimat YCC dalam ukuran kecil. **[usul Claude, disetujui user]**

@@ -23,7 +23,15 @@ Semua yang personal ada di satu file: **`src/content.js`**. Apa pun yang ada di 
 9. **Letter from the future (opsional)** (`futureLetter`): surat pendek untuk ulang tahun berikutnya. Tampil sebagai amplop tersegel di bawah surat dan baru bisa dibuka mulai `openOn` (`2027-11-01`) menurut jam HP dia. **Situsnya harus tetap online sampai tanggal itu.** Kosongkan `paragraphs` untuk menyembunyikannya.
 10. **Video singkat (opsional)**: taruh file di `public/video/message.mp4`, lalu isi `video.src = 'video/message.mp4'`. `poster` dan `captions` (`.vtt`) opsional. Kalau `src` dikosongkan, tombol videonya tidak muncul. Video tidak pernah autoplay.
    - Rekam vertikal, 20-40 detik, di bawah ~15 MB. Format MP4 (H.264) paling aman di semua HP.
-11. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
+11. **Langit asli** (`skyMoment`): sudah diisi South Quarter, Cilandak, 7 Juli 2025 jam 12.00 WIB. Ganti `time` kalau jamnya beda (format `2025-07-07T12:00:00+07:00`), dan tulis `note` sendiri.
+12. **Foto terakhir di finale** (`finale.photo`, `photoAlt`, `photoCaption`): misalnya foto pertama kalian berdua.
+13. **Balasan** (`reply.phone`): nomor WhatsApp lu, kode negara + angka saja, misalnya `6281234567890`. `reply.message` boleh diisi sebagai teks awal.
+14. **Our song** (`song.spotifyUrl`): di Spotify, Share → Copy song link, lalu tempel. Isi juga `title` dan `artist`.
+15. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
+
+Sound effect tidak perlu diisi apa-apa. Dia memilih sendiri di layar pembuka: "Begin with sound" atau "Begin quietly", dan bisa diubah lewat ikon speaker di atas.
+
+Kalau mau update data bintang dari katalog: `node scripts/make-sky-data.mjs` (hasilnya `src/data/sky.json`, sudah ikut di repo).
 
 Tips: isi dulu yang paling personal (surat, "how you see her", kalimat di finale). Teks yang kelihatan templat adalah satu-satunya cara website ini bisa terasa generik.
 
@@ -35,6 +43,7 @@ Butuh Node **20.19 atau lebih baru**.
 npm install
 npm run dev        # development, buka alamat yang muncul
 npm run build      # hasil jadi di folder dist/
+VITE_PREVIEW=1 npm run build   # versi preview: tombol "Start over" + placeholder untuk field kosong
 npm run preview    # cek hasil build di http://localhost:4173
 ```
 
