@@ -1,7 +1,8 @@
 // ====================================================================
 //  EDIT THIS FILE. Everything personal lives here.
 //
-//  - Anything in [square brackets] is a placeholder. Replace it.
+//  - Anything in [square brackets] is a placeholder. Replace it,
+//    brackets included. Search for "[" before you send the link.
 //  - Leave a field as '' to hide it.
 //  - Photos: put files in public/photos/ and write 'photos/name.jpg'
 //    (no leading slash, so it also works on GitHub Pages).
@@ -13,15 +14,16 @@
 
 export const herName = '[Her name]';
 export const yourName = '[Your name]';
-export const specialDate = '[Her birthday, e.g. October 24]';
+export const specialDate = 'November 1';
 
 // The day you first met, as YYYY-MM-DD. Used to count the days.
-export const metDate = '2025-01-15'; // REPLACE with the real date
+export const metDate = '2025-07-07';
 
 // ---------- Opening ----------
-// Three short lines, shown one after another. Keep it under ~12 words.
+// Your opening line, split over two or three short lines.
+// Under ~12 words in total. Save the YCC line for the end.
 export const opening = {
-  lines: ['Somehow, in this', 'enormous universe,', 'I found you.'],
+  lines: ['[A line only you', 'could say to her]'],
 };
 
 // ---------- The five stars ----------
@@ -31,86 +33,93 @@ export const stars = [
     id: 'first-light',
     label: 'The first light',
     sub: 'How it started',
-    title: 'It started with an ordinary day.',
+    title: '[A heading about how it began at YCC]',
     lead: '[One sentence to set the scene.]',
   },
   {
     id: 'moments',
     label: 'Moments I keep',
     sub: 'A few small days',
-    title: 'Little moments, kept.',
-    lead: 'Some days don’t need to be big to stay with you. These are the ones that stayed with me.',
+    title: '[A heading for your photos]',
+    lead: '[One or two sentences: why these days and not others.]',
   },
   {
     id: 'you',
     label: 'The way I see you',
     sub: 'What I notice',
-    title: 'A map of the things I notice.',
-    lead: 'Not the big things. The small ones you probably don’t know I see.',
+    title: '[A heading for the things you notice about her]',
+    lead: '[One sentence about something she probably does not know you see.]',
   },
   {
     id: 'odds',
     label: 'How lucky I am',
     sub: 'Numbers, sort of',
-    title: 'I don’t know the odds.',
-    lead: 'Out of all the ways that day could have gone, it went this way. Here is what I can count.',
+    title: '[A heading about how lucky this feels]',
+    lead: '[One sentence about how unlikely meeting her was.]',
   },
   {
     id: 'wishes',
     label: 'My wishes for you',
     sub: 'For the year ahead',
-    title: 'What I hope for you.',
-    lead: 'Three wishes, in no particular order.',
+    title: '[A heading for your wishes]',
+    lead: '',
   },
 ];
 
 // ---------- Star 1: timeline (4 to 6 entries) ----------
+// Merge or delete moments freely. The first one is YCC.
 export const timeline = [
   {
     date: '[When]',
-    title: 'The first light',
-    text: '[At YCC, where was she standing when you first noticed her? What was she doing? Two or three honest sentences.]',
+    title: 'The first encounter',
+    text: '[At YCC: where was she standing when you first noticed her, and what was she doing? Two or three honest sentences.]',
   },
   {
     date: '[When]',
-    title: 'A conversation that stayed',
-    text: '[A small moment you remember more clearly than she probably knows.]',
+    title: 'The first conversation',
+    text: '[What did you actually talk about? Quote a line if you remember one.]',
   },
   {
     date: '[When]',
-    title: 'Somewhere along the way',
-    text: '[When you realised she was becoming important to you.]',
+    title: 'The moment things changed',
+    text: '[The specific day you knew. What happened?]',
   },
   {
-    date: '[Today]',
-    title: 'And here we are',
-    text: '[What being with her feels like now.]',
+    date: '[When]',
+    title: 'The little moments that made us closer',
+    text: '[Two or three small, ordinary things only the two of you would recognise.]',
+  },
+  {
+    date: 'Today',
+    title: 'Today, and your new chapter',
+    text: '[Where you both are now, and what this birthday starts for her.]',
   },
 ];
 
 // ---------- Star 2: photos (3 to 6) ----------
+// For every caption, answer one question: why do I remember this?
 // image: 'photos/first-date.jpg'   focus: where to keep the crop, e.g. '50% 30%'
 export const memories = [
   {
     date: '[When]',
-    title: '[A memory title]',
-    caption: '[Why this one matters to you.]',
+    title: '[A title for this day]',
+    caption: '[Why do I remember this?]',
     image: '',
     alt: '',
     focus: '50% 40%',
   },
   {
     date: '[When]',
-    title: '[Another memory]',
-    caption: '[A funny detail or a tiny thing you still remember.]',
+    title: '[A title for this day]',
+    caption: '[Why do I remember this?]',
     image: '',
     alt: '',
     focus: '50% 40%',
   },
   {
     date: '[When]',
-    title: '[A favourite day]',
-    caption: '[What you want her to remember about it.]',
+    title: '[A title for this day]',
+    caption: '[Why do I remember this?]',
     image: '',
     alt: '',
     focus: '50% 40%',
@@ -118,13 +127,15 @@ export const memories = [
 ];
 
 // ---------- Star 3: what you notice about her (5 to 8) ----------
+// label: 1 to 3 words. detail: a moment that shows it, not an adjective.
+// photo and story are optional: leave '' to show only the detail.
 export const love = [
-  { label: 'Your laugh', detail: '[What it does to a room, or to your day.]' },
-  { label: 'How hard you try', detail: '[Something you admire about the way she keeps going.]' },
-  { label: 'Your silly side', detail: '[An inside joke, or a tiny habit that makes you laugh.]' },
-  { label: 'How you care', detail: '[A specific moment you noticed her kindness.]' },
-  { label: 'Your small rituals', detail: '[Something ordinary she does that feels irreplaceable.]' },
-  { label: 'How you listen', detail: '[A time she really heard you.]' },
+  { label: '[Trait 1]', detail: '[A moment that shows it. Not "you are kind": when were you kind?]', photo: '', photoAlt: '', story: '' },
+  { label: '[Trait 2]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
+  { label: '[Trait 3]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
+  { label: '[Trait 4]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
+  { label: '[Trait 5]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
+  { label: '[Trait 6]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
 ];
 
 // ---------- Star 4: numbers ----------
@@ -132,9 +143,9 @@ export const love = [
 // Real counts only. If it is not a number you can stand behind, make it a sentence.
 export const odds = {
   items: [
-    { kind: 'days', label: 'days since we met', note: 'A small number for a very big thing.' },
+    { kind: 'days', label: 'days since we met', note: '[One line about what those days have been like.]' },
     { value: '[N]', label: '[something you count together]', note: '[One line about it.]' },
-    { value: '1', label: 'person I made this for', note: 'No statistics needed for this one.' },
+    { value: '[N]', label: '[another number only the two of you would know]', note: '' },
   ],
   disclaimer:
     'Not a scientific probability. Just my way of saying how unlikely and wonderful this feels.',
@@ -142,11 +153,11 @@ export const odds = {
 
 // ---------- Star 5: wishes (3) ----------
 export const wishes = [
-  { title: 'For your heart', text: '[A wish for peace, and for people who make her feel safe.]' },
-  { title: 'For your dreams', text: '[A wish for the thing she is working hardest on.]' },
+  { title: 'For your heart', text: '[What you hope she feels in the year ahead, specifically.]' },
+  { title: 'For your dreams', text: '[Name the thing she is working hardest on.]' },
   {
     title: 'For who you are becoming',
-    text: '[A wish that she keeps growing without losing what makes her herself.]',
+    text: '[How you have watched her grow, and what you hope stays the same.]',
   },
 ];
 
@@ -173,7 +184,17 @@ export const letter = {
     '[What you appreciate about her, and what you are proud of her for.]',
     '[What you hope this next year brings her, and where you hope to be in it.]',
   ],
-  signoff: 'With all my love,',
+  signoff: '[Your sign-off, the way you end your messages to her]',
+};
+
+// ---------- Letter from the future (optional) ----------
+// A sealed envelope under the letter. It opens on openOn (YYYY-MM-DD,
+// her device's clock), so the site has to stay online until then.
+// Leave paragraphs empty to hide it.
+export const futureLetter = {
+  openOn: '2027-11-01',
+  title: 'For your next birthday',
+  paragraphs: ['[A short letter for her to read on November 1, 2027.]'],
 };
 
 // ---------- Optional video message (leave src empty to hide it) ----------
@@ -197,6 +218,8 @@ export const ui = {
   progress: (n, total) => `${n} of ${total} stars`,
   menuTitle: 'Stars',
   close: 'Close',
+  expand: 'Show more of the story',
+  collapse: 'Show more of the sky',
   nextStar: 'Next star',
   seeSky: 'See the whole sky',
   backToSky: 'Back to the sky',
@@ -207,4 +230,6 @@ export const ui = {
   secretLabel: 'A faint star. Tap it.',
   photoHere: 'Your photo goes here',
   opened: 'opened',
+  sealedUntil: 'Sealed until',
+  openFuture: 'Open it',
 };

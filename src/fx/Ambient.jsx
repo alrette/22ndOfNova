@@ -46,6 +46,7 @@ export default function Ambient({ reduced }) {
     let curY = 0;
     let scrollY = window.scrollY;
     let pull = null;
+    let warp = null;
     let shoot = null;
     let nextShoot = performance.now() + rand(14000, 26000);
 
@@ -114,6 +115,14 @@ export default function Ambient({ reduced }) {
         else pe = Math.sin(Math.PI * p);
       }
 
+      // Warp: every star streaks away from one point, as if the sky rushes past.
+      let we = 0;
+      if (warp) {
+        const p = (t - warp.t0) / warp.dur;
+        if (p >= 1) warp = null;
+        else we = Math.sin(Math.PI * p) ** 1.5;
+      }
+
       for (const s of stars) {
         if (!reduced) {
           s.x = wrap(s.x + s.vx * dt, W);
@@ -134,6 +143,21 @@ export default function Ambient({ reduced }) {
         }
         let a = s.a;
         if (s.tw && !reduced) a *= 0.72 + 0.28 * Math.sin(t * 0.001 * s.tw * 2 + s.ph);
+        if (we > 0) {
+          const dx = x - warp.x;
+          const dy = y - warp.y;
+          const d = Math.hypot(dx, dy) || 1;
+          const len = we * Math.min(260, 30 + d * 0.55) * (0.6 + L.par * 0.6);
+          x += (dx / d) * we * 24 * L.par;
+          y += (dy / d) * we * 24 * L.par;
+          ctx.globalAlpha = Math.min(1, a * (0.6 + we));
+          ctx.strokeStyle = s.cool ? '#A9C0FF' : '#EAF0FF';
+          ctx.lineWidth = s.r * (1 + we);
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + (dx / d) * len, y + (dy / d) * len);
+          ctx.stroke();
+        }
         if (L.glow) {
           const g = s.r * 7;
           ctx.globalAlpha = a * 0.85;
@@ -226,9 +250,16 @@ export default function Ambient({ reduced }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('pointermove', onMove, { passive: true });
     document.addEventListener('visibilitychange', onVis);
-    const off = fx.on('pull', ({ x, y }) => {
+    const offPull = fx.on('pull', ({ x, y }) => {
       pull = { x, y, t0: performance.now(), dur: 1600 };
     });
+    const offWarp = fx.on('warp', ({ x, y }) => {
+      warp = { x, y, t0: performance.now(), dur: 1700 };
+    });
+    const off = () => {
+      offPull();
+      offWarp();
+    };
 
     return () => {
       running = false;

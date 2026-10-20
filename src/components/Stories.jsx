@@ -22,8 +22,8 @@ function Timeline({ star }) {
     <div ref={ref}>
       <Head star={star} />
       <ol className="tl">
-        {timeline.map((t) => (
-          <li key={t.title} className="reveal">
+        {timeline.map((t, i) => (
+          <li key={i} className="reveal">
             <Sparkle className="tl-mark" />
             {t.date && <span className="tl-date">{t.date}</span>}
             <h3>{t.title}</h3>
@@ -68,8 +68,8 @@ function Memories({ star }) {
     <div ref={ref}>
       <Head star={star} />
       <div className="mem-wrap">
-        {memories.map((m) => (
-          <figure key={m.title + m.date} className="mem reveal">
+        {memories.map((m, i) => (
+          <figure key={i} className="mem reveal">
             <div className="mem-photo">
               <Photo m={m} />
             </div>
@@ -118,7 +118,7 @@ function Love({ star }) {
           <polygon points={ring} className="love-ring" />
           {pts.map((p, i) => (
             <path
-              key={love[i].label}
+              key={i}
               d={`M50 50L${p.x.toFixed(1)} ${p.y.toFixed(1)}`}
               pathLength="1"
               style={{ '--i': i }}
@@ -132,7 +132,7 @@ function Love({ star }) {
         </div>
         {love.map((l, i) => (
           <button
-            key={l.label}
+            key={i}
             type="button"
             className={`love-node ${pts[i].y < 50 ? 'up' : 'down'} ${active === i ? 'is-active' : ''} ${
               seen.includes(i) ? 'is-seen' : ''
@@ -154,6 +154,10 @@ function Love({ star }) {
           <>
             <h3>{love[active].label}</h3>
             <p>{love[active].detail}</p>
+            {love[active].photo && (
+              <img className="love-photo" src={asset(love[active].photo)} alt={love[active].photoAlt || ''} loading="lazy" />
+            )}
+            {love[active].story && <p className="love-story">{love[active].story}</p>}
           </>
         )}
       </div>
@@ -188,8 +192,8 @@ function Odds({ star }) {
     <div>
       <Head star={star} />
       <div className="odds">
-        {items.map((it) => (
-          <OddsRow key={it.label} item={it} days={days} />
+        {items.map((it, i) => (
+          <OddsRow key={i} item={it} days={days} />
         ))}
       </div>
       {odds.disclaimer && (
@@ -211,7 +215,7 @@ function Wishes({ star }) {
       <Head star={star} />
       <div className="wishes">
         {wishes.map((w, i) => (
-          <section key={w.title} className={`wish wish-${i % 3} reveal`}>
+          <section key={i} className={`wish wish-${i % 3} reveal`}>
             <Sparkle className="wish-mark" />
             <h3>{w.title}</h3>
             <p>{w.text}</p>

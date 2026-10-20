@@ -13,7 +13,7 @@ export const LAYOUT = {
     secret: { x: 78, y: 83, side: 'l' },
   },
   desktop: {
-    'first-light': { x: 13, y: 36, side: 'l' },
+    'first-light': { x: 16, y: 36, side: 'l' },
     moments: { x: 33, y: 66, side: 'b' },
     you: { x: 52, y: 30, side: 'a' },
     odds: { x: 71, y: 62, side: 'b' },

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { stars, video, ui } from './content';
 import { useMedia, useReducedMotion } from './hooks';
 import { clearProgress, introSeen, loadProgress, markIntroSeen, saveProgress } from './store';
-import { fx, fxState } from './fx/bus';
+import { centerOf, fx, fxState } from './fx/bus';
 import Ambient from './fx/Ambient';
 import Touch from './fx/Touch';
 import Intro from './components/Intro';
@@ -15,6 +15,7 @@ import VideoModal from './components/VideoModal';
 
 const IDS = stars.map((s) => s.id);
 const SECRET_AFTER = 3; // stars opened before the faint star shows up
+const starEl = (id) => document.querySelector(`.sky [data-star="${id}"]`);
 
 export default function App() {
   const isDesktop = useMedia('(min-width: 900px)');
@@ -38,15 +39,26 @@ export default function App() {
   const [finaleSeen, setFinaleSeen] = useState(init.finaleSeen);
   const [openId, setOpenId] = useState(null);
   const [shownId, setShownId] = useState('first-light');
+  const [travel, setTravel] = useState(null); // { from, to, key } while a comet flies to the next star
+  const [aligning, setAligning] = useState(false);
   const [finaleOpen, setFinaleOpen] = useState(false);
   const [letterOpen, setLetterOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const finaleTimer = useRef(0);
+  const timers = useRef([]);
 
   const hasVideo = Boolean(video.src);
   const allVisited = IDS.every((id) => visited.includes(id));
   const secretUnlocked = visited.length >= SECRET_AFTER || secretFound;
+
+  const later = (fn, ms) => {
+    timers.current.push(setTimeout(fn, ms));
+  };
+  const clearTimers = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  };
+  useEffect(() => clearTimers, []);
 
   useEffect(() => {
     const on = () => setVw(window.innerWidth);
@@ -62,8 +74,8 @@ export default function App() {
     fxState.calm = letterOpen || videoOpen;
   }, [letterOpen, videoOpen]);
   useEffect(() => {
-    fxState.panelOpen = openId !== null;
-  }, [openId]);
+    fxState.panelOpen = openId !== null || aligning;
+  }, [openId, aligning]);
 
   // A phone sheet or dialog covers the sky, so the page behind it stays put.
   useEffect(() => {
@@ -71,19 +83,34 @@ export default function App() {
     document.documentElement.classList.toggle('locked', Boolean(lock));
   }, [phase, isDesktop, openId, finaleOpen, letterOpen, videoOpen]);
 
+  // On a phone, bring a point of the tall sky into the given share of the screen.
+  const scrollSkyTo = (y, share) => {
+    if (isDesktop) return;
+    // A locked page ignores scrolling, so lift the lock for one instant jump.
+    const root = document.documentElement;
+    const locked = root.classList.contains('locked');
+    root.classList.remove('locked');
+    window.scrollTo({ top: Math.max(0, y - window.innerHeight * share), behavior: reduced || locked ? 'auto' : 'smooth' });
+    if (locked) root.classList.add('locked');
+  };
+
   const enterSky = () => {
     if (phase !== 'intro') return;
     markIntroSeen();
-    setRevealed(true);
     if (reduced) {
+      setRevealed(true);
       setPhase('sky');
-    } else {
-      setPhase('leaving');
-      setTimeout(() => setPhase('sky'), 1500);
+      return;
     }
+    const c = centerOf(document.querySelector('.intro-spark'));
+    fx.emit('warp', c);
+    fx.emit('nova', { ...c, tone: 'blue', scale: 1.1 });
+    setPhase('leaving');
+    later(() => setRevealed(true), 650);
+    later(() => setPhase('sky'), 2100);
   };
 
-  const openStar = (id, el) => {
+  const openStar = (id, el = starEl(id)) => {
     if (id === 'secret') setSecretFound(true);
     else setVisited((v) => (v.includes(id) ? v : [...v, id]));
     setOpenId(id);
@@ -91,7 +118,13 @@ export default function App() {
     setMenuOpen(false);
     if (el) {
       const r = el.getBoundingClientRect();
-      fx.emit('pull', { x: r.left + r.width / 2, y: r.top + r.height / 2 });
+      // The phone sheet leaves the top third of the sky visible: put the star there.
+      scrollSkyTo(window.scrollY + r.top + r.height / 2, 0.17);
+      if (!reduced) {
+        const c = centerOf(el);
+        fx.emit('pull', c);
+        fx.emit('flare', c);
+      }
     }
   };
 
@@ -100,15 +133,37 @@ export default function App() {
     setFinaleOpen(true);
   };
 
+  // The ending: every line flares in turn, light gathers, then the birthday screen.
+  const playAlignment = () => {
+    clearTimers();
+    setMenuOpen(false);
+    if (reduced) {
+      openFinale();
+      return;
+    }
+    const sky = document.getElementById('sky');
+    if (sky) {
+      const r = sky.getBoundingClientRect();
+      scrollSkyTo(window.scrollY + r.top + r.height * 0.4, 0.5);
+    }
+    setAligning(true);
+    later(() => fx.emit('nova', { x: window.innerWidth / 2, y: window.innerHeight * 0.45, scale: 1.2 }), 1700);
+    later(() => {
+      setAligning(false);
+      openFinale();
+    }, 2500);
+  };
+
   const closePanel = () => {
     const id = openId;
     setOpenId(null);
+    setTravel(null);
     requestAnimationFrame(() => {
       document.querySelector(`[data-star="${id}"]`)?.focus({ preventScroll: true });
     });
     if (!finaleSeen && allVisited) {
-      clearTimeout(finaleTimer.current);
-      finaleTimer.current = setTimeout(openFinale, 700);
+      clearTimers();
+      later(playAlignment, 600);
     }
   };
 
@@ -118,6 +173,34 @@ export default function App() {
   })();
   const nextStar = stars.find((s) => s.id === nextId);
   const nextLabel = nextStar ? ui.nextStar : !finaleSeen && allVisited ? ui.seeSky : ui.backToSky;
+
+  // Next star: a comet runs along the constellation line, then the next story opens.
+  const goNext = () => {
+    if (!nextId) {
+      closePanel();
+      return;
+    }
+    if (reduced) {
+      openStar(nextId);
+      return;
+    }
+    clearTimers();
+    const from = shownId;
+    setTravel({ from, to: nextId, key: Date.now() });
+    if (!isDesktop) {
+      setOpenId(null);
+      const a = starEl(from)?.getBoundingClientRect();
+      const b = starEl(nextId)?.getBoundingClientRect();
+      if (a && b) scrollSkyTo(window.scrollY + (a.top + b.top) / 2, 0.5);
+    }
+    later(
+      () => {
+        setTravel(null);
+        openStar(nextId);
+      },
+      isDesktop ? 1250 : 1750,
+    );
+  };
 
   useEffect(() => {
     const onKey = (e) => {
@@ -131,6 +214,12 @@ export default function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   });
+
+  const openLetter = () => {
+    setMenuOpen(false);
+    setFinaleOpen(false);
+    setLetterOpen(true);
+  };
 
   const wide = shownId === 'moments';
   const target = isDesktop ? Math.round(wide ? Math.min(vw * 0.62, 880) : Math.min(vw * 0.44, 620)) : 0;
@@ -156,27 +245,24 @@ export default function App() {
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
         onOpenStar={(id) => openStar(id)}
-        onLetter={() => {
-          setMenuOpen(false);
-          setLetterOpen(true);
-        }}
+        onLetter={openLetter}
         onVideo={() => {
           setMenuOpen(false);
           setVideoOpen(true);
         }}
-        onReplay={() => {
-          setMenuOpen(false);
-          setFinaleOpen(true);
-        }}
+        onReplay={playAlignment}
       />
 
       <main className="stage">
         <Sky
           isDesktop={isDesktop}
+          reduced={reduced}
           visited={visited}
           secretFound={secretFound}
           secretUnlocked={secretUnlocked}
           openId={openId}
+          travel={travel}
+          aligning={aligning}
           revealed={revealed}
           finaleSeen={finaleSeen}
           onOpen={openStar}
@@ -184,9 +270,10 @@ export default function App() {
         <Panel
           id={shownId}
           open={openId !== null}
+          traveling={Boolean(travel)}
           isDesktop={isDesktop}
           onClose={closePanel}
-          onNext={() => (nextId ? openStar(nextId) : closePanel())}
+          onNext={goNext}
           nextLabel={nextLabel}
           nextHint={nextStar?.label}
         />
@@ -197,11 +284,9 @@ export default function App() {
       {finaleOpen && (
         <Finale
           hasVideo={hasVideo}
+          reduced={reduced}
           onClose={() => setFinaleOpen(false)}
-          onLetter={() => {
-            setFinaleOpen(false);
-            setLetterOpen(true);
-          }}
+          onLetter={openLetter}
           onVideo={() => {
             setFinaleOpen(false);
             setVideoOpen(true);

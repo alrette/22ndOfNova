@@ -127,14 +127,25 @@ export function useCountUp(target, run, duration = 1800) {
   return value;
 }
 
-// Whole days between an ISO date (YYYY-MM-DD) and today, in the device's time zone.
-export function daysSince(iso) {
+// A YYYY-MM-DD date at local midnight, or null if it is missing or impossible (2025-02-30).
+export function parseDate(iso) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
   if (!m) return null;
-  const start = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  return d.getMonth() === Number(m[2]) - 1 && d.getDate() === Number(m[3]) ? d : null;
+}
+
+export function startOfToday() {
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  return Math.max(0, Math.round((today - start) / 86400000));
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
+
+// Whole days between an ISO date (YYYY-MM-DD) and today, in the device's time zone.
+export function daysSince(iso) {
+  const start = parseDate(iso);
+  if (!start) return null;
+  // Rounding absorbs the hour lost or gained on daylight-saving days.
+  return Math.max(0, Math.round((startOfToday() - start) / 86400000));
 }
 
 // Resolves 'photos/a.jpg' (or '/photos/a.jpg') against the site's base path.
