@@ -9,19 +9,21 @@ Desain lengkap + alasannya ada di [`DESIGN.md`](./DESIGN.md). Kalau ada referens
 
 Semua yang personal ada di satu file: **`src/content.js`**. Apa pun yang ada di `[kurung siku]` itu placeholder, ganti.
 
-1. **Nama & tanggal**: `herName`, `yourName`, `specialDate`.
-2. **`metDate`**: tanggal kalian ketemu, format `YYYY-MM-DD`. Sekarang isinya tanggal palsu (`2025-01-15`). Ini dipakai buat hitung "berapa hari", jadi **wajib diganti**. Kalau dikosongin (`''`), baris hitungan harinya otomatis hilang.
-3. **Bintang 1, "The first light"** (`timeline`): ceritanya sengaja soal YCC. Kalimat "I'm glad I attended YCC." **tidak** ditaruh di sini, dia baru muncul di akhir.
-4. **Foto** (`memories`): taruh file di `public/photos/`, tulis di content sebagai `'photos/nama.jpg'` (tanpa `/` di depan, biar jalan di GitHub Pages). Foto yang belum ada otomatis tampil sebagai placeholder, tidak error.
+1. **Nama**: `herName`, `yourName`. Tanggal sudah diisi: `specialDate` = November 1, `metDate` = `2025-07-07` (dipakai buat hitung "berapa hari"; kalau dikosongin, baris hitungannya hilang).
+2. **Kalimat pembuka** (`opening.lines`): tulis sendiri, di bawah ~12 kata, jangan sebut YCC dulu.
+3. **Judul dan lead tiap bintang** (`stars[].title`, `stars[].lead`): semuanya prompt, tulis dengan kata-kata lu sendiri.
+4. **Bintang 1, "The first light"** (`timeline`): lima momen, momen pertama soal YCC. Boleh dihapus atau digabung. Kalimat "I'm glad I attended YCC." **tidak** ditaruh di sini, dia baru muncul di akhir.
+5. **Foto** (`memories`): tiap caption menjawab satu pertanyaan, *why do I remember this?* Taruh file di `public/photos/`, tulis di content sebagai `'photos/nama.jpg'` (tanpa `/` di depan, biar jalan di GitHub Pages). Foto yang belum ada otomatis tampil sebagai placeholder, tidak error.
    - Pakai foto asli, bukan foto stok. Satu foto yang spesifik lebih kena daripada sepuluh yang generik.
    - Landscape atau portrait bebas. Kalau wajahnya ke-crop aneh, atur `focus` (mis. `'50% 30%'`).
    - Kecilkan dulu (lebar ~1600px, di bawah 400 KB per foto) supaya kebuka cepat di data seluler kantor.
-5. **Bintang "The way I see you"** (`love`): 6 hal kecil yang lu perhatiin dari dia. Makin spesifik makin bagus.
-6. **`odds`**: angka-angka. Ada disclaimer "Not a scientific probability" supaya jujur dan lucu.
-7. **`wishes`**, **`finale.note`** (satu kalimat jujur kenapa lu senang ikut YCC), **`letter`** (surat).
-8. **Video singkat (opsional)**: taruh file di `public/video/message.mp4`, lalu isi `video.src = 'video/message.mp4'`. `poster` dan `captions` (`.vtt`) opsional. Kalau `src` dikosongkan, tombol videonya tidak muncul. Video tidak pernah autoplay.
+6. **Bintang "The way I see you"** (`love`): 5 sampai 8 hal kecil yang lu perhatiin dari dia (`label` 1 sampai 3 kata, `detail` satu momen). `photo` + `photoAlt` dan `story` opsional, tampil di bawah detail kalau diisi.
+7. **`odds`**: angka-angka. Ada disclaimer "Not a scientific probability" supaya jujur dan lucu.
+8. **`wishes`**, **`finale.note`** (satu kalimat jujur kenapa lu senang ikut YCC), **`letter`** (surat, termasuk sign-off).
+9. **Letter from the future (opsional)** (`futureLetter`): surat pendek untuk ulang tahun berikutnya. Tampil sebagai amplop tersegel di bawah surat dan baru bisa dibuka mulai `openOn` (`2027-11-01`) menurut jam HP dia. **Situsnya harus tetap online sampai tanggal itu.** Kosongkan `paragraphs` untuk menyembunyikannya.
+10. **Video singkat (opsional)**: taruh file di `public/video/message.mp4`, lalu isi `video.src = 'video/message.mp4'`. `poster` dan `captions` (`.vtt`) opsional. Kalau `src` dikosongkan, tombol videonya tidak muncul. Video tidak pernah autoplay.
    - Rekam vertikal, 20-40 detik, di bawah ~15 MB. Format MP4 (H.264) paling aman di semua HP.
-9. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
+11. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
 
 Tips: isi dulu yang paling personal (surat, "how you see her", kalimat di finale). Teks yang kelihatan templat adalah satu-satunya cara website ini bisa terasa generik.
 

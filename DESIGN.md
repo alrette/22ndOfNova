@@ -48,7 +48,8 @@ Judul kerja: *A Universe Written for You*. **[user]**
 
 ## 3. Constraints
 
-- **Basis kode:** proyek React + Vite yang sudah ada (file referensi: `App.jsx`, `content.js`, `styles.css`, `main.jsx`, `index.html`, `package.json`, `README.md`). Bangun di atasnya, jangan mulai dari nol. **[user memberi referensi, call Claude untuk membangun di atasnya]** Node 20.19 atau lebih baru (syarat Vite di lockfile). Dari basis kode lama dipertahankan: pola `content.js`, palet, ide isi tiap section, dan surat kertas krem. Ditulis ulang: mekanisme peta dan langit, starfield, mini game, header, tipografi, dan layout HP. Jika isi `refs/` bertentangan dengan keputusan **[user]** atau anti-goal di dokumen ini, dokumen ini menang dan builder mencatat konfliknya di README. **[call Claude]**
+- **Basis kode (update):** sejak 20 Oktober 2026 basisnya adalah build dari `universe.zip` (React 19 + Vite 8, Fraunces + Schibsted Grotesk), yang sudah mengikuti dokumen ini. Pekerjaan berikutnya melanjutkan kode itu. **[user mengirim zip, call Claude untuk melanjutkannya]**
+- **Basis kode (awal):** proyek React + Vite yang sudah ada (file referensi: `App.jsx`, `content.js`, `styles.css`, `main.jsx`, `index.html`, `package.json`, `README.md`). Bangun di atasnya, jangan mulai dari nol. **[user memberi referensi, call Claude untuk membangun di atasnya]** Node 20.19 atau lebih baru (syarat Vite di lockfile). Dari basis kode lama dipertahankan: pola `content.js`, palet, ide isi tiap section, dan surat kertas krem. Ditulis ulang: mekanisme peta dan langit, starfield, mini game, header, tipografi, dan layout HP. Jika isi `refs/` bertentangan dengan keputusan **[user]** atau anti-goal di dokumen ini, dokumen ini menang dan builder mencatat konfliknya di README. **[call Claude]**
 - **Mobile dan desktop setara.** Layar HP minimal 360px lebar, desktop sampai 1920px. **[user]**
 - **Performa di HP biasa.** Dua canvas efek (satu di belakang konten, satu di depan), DPR dibatasi, animasi dijeda saat tab tidak terlihat, jumlah partikel dibatasi (lihat bagian Efek). **[call Claude]**
 - **Reduced motion dihormati.** Jika perangkat meminta gerak dikurangi: tanpa drift, tanpa jejak, tanpa ledakan, tanpa bintang jatuh, bintang diam, transisi instan. Semua isi tetap bisa diakses. **[call Claude]**
@@ -72,7 +73,7 @@ Judul kerja: *A Universe Written for You*. **[user]**
   1. Ambient: kabut biru statis di latar (radial gradient besar, lembut). Murah, selalu ada.
   2. Sumber cahaya: bintang, orbit, bintang yang baru dibuka, bintang selected, dan titik yang disentuh. Di sinilah glow paling kuat.
   3. Interaksi: ledakan dan jejak (lihat Efek). Muncul sesaat lalu hilang.
-  - Teks tidak diberi glow. Teks harus tajam. Foto tidak bercahaya.
+  - Teks display (judul serif, angka besar, nama bintang, kalimat penutup) boleh diberi glow tipis. **[user]** Teks isi tetap tajam tanpa glow. Foto tidak bercahaya.
   - Glow dibuat dengan radial gradient (di SVG dan canvas) atau box-shadow berlapis (di elemen HTML), bukan `filter: drop-shadow` pada banyak elemen SVG yang beranimasi, karena berat di HP. Pemakaian filter dibatasi pada elemen yang jumlahnya sedikit dan tidak terus beranimasi.
 - **Tanpa blur sebagai fondasi.** Panel solid. Backdrop blur tidak dipakai untuk panel cerita. **[user, lewat konsep]** (referensi memakai backdrop blur di header dan backdrop surat, ganti dengan warna solid atau gelap semi-solid tanpa blur).
 - **Satu motif visual konsisten:** konstelasi dan orbit. Garis tipis, titik kecil tajam. Muncul lagi di timeline, wishes, dan footer. **[user, lewat konsep]**
@@ -89,6 +90,15 @@ Judul kerja: *A Universe Written for You*. **[user]**
 - **Bintang jatuh jarang.** **[call Claude]** Sekitar sekali tiap setengah menit, tidak saat panel cerita terbuka. Boleh dibuang.
 - **Bintang terbuka "menarik" bintang kecil di sekitarnya sebentar.** **[call Claude]** Penanda halus. Boleh dibuang.
 - **Kamera bergeser halus ke bintang yang dipilih, khusus desktop.** Langit bergeser dan sedikit memperbesar ke arah bintang yang dibuka, lalu kembali saat panel ditutup. Tidak dipakai di HP (panel dari bawah dan scroll sudah cukup) dan mati saat reduced motion aktif. **[usul Claude, disetujui user]**
+- **Transisi dramatis dan ornamen.** **[user: "lebih lebay", "magnificent", banyak hiasan untuk transisi]** Gerak besar hanya di momen perpindahan, bukan loop di mana-mana, supaya teks tetap terbaca:
+  - Opening ke langit: bintang meledak terang, tiga cincin kejut, sinar silang, langit "warp" (bintang memanjang keluar dari titik tengah), lalu bintang-bintang menyala satu per satu dengan cincin kecil.
+  - Membuka bintang: cincin dan debu amber dari bintang, cincin orbit berputar di bintang yang terbuka, garis cahaya menyapu tepi panel, judul tersibak dari kiri.
+  - Bintang berikutnya: komet terbang di sepanjang garis konstelasi dan menggambar garisnya, kamera ikut bergeser di desktop.
+  - Sebelum finale: setiap garis dan bintang menyala bergiliran, lalu ledakan cahaya besar, baru layar ucapan.
+  - Finale: konstelasi yang sama dengan peta langit, orbit tergambar, cahaya kecil naik terus selama layar terbuka.
+  - Surat: kertas membuka dari lipatan tengah, bingkai emas dengan bintang di keempat sudut.
+  - Ornamen tetap: divider garis-bintang-garis, flourish konstelasi kecil, konstelasi samar di sudut opening.
+  - Semua mati saat reduced motion. **[detail call Claude]**
 - Efek hidup di dua canvas dengan gaya partikel yang sama. Canvas belakang (di bawah konten) menggambar bintang ambient dan bintang jatuh. Canvas depan (di atas konten, `pointer-events: none`) menggambar ledakan sentuh dan jejak mouse, dengan partikel kecil dan singkat supaya tidak mengganggu teks di bawahnya. Gaya partikel: debu bintang kecil berwarna electric blue dan ivory, dengan sedikit amber di sekitar bintang yang sudah dibuka.
 - **Anggaran awal:** bintang ambient sekitar 60 di HP dan 140 di desktop. Partikel interaksi aktif maksimal sekitar 80, dihitung terpisah dari bintang ambient. Ledakan sentuh 8 sampai 12 partikel dengan umur sekitar 0,6 sampai 0,8 detik. Jejak mouse sekitar 20 titik yang memudar dalam sekitar 0,5 detik. Angka ini titik awal, builder menyesuaikan setelah diuji di HP.
 
@@ -107,6 +117,7 @@ Judul kerja: *A Universe Written for You*. **[user]**
 5. **Video singkat (opsional).** **[user: video, bukan voice note]** Video pesan dari pembuat, durasi yang disarankan 30 sampai 60 detik. Tidak pernah diputar otomatis, hanya jalan saat dia menekan play, karena dia mungkin sedang di kantor. Ada poster (satu frame atau foto), kontrol bawaan, `playsInline`, dan `preload="metadata"` supaya tidak menghabiskan kuota sebelum diputar. Mendukung file takarir `.vtt` opsional supaya bisa ditonton tanpa suara. Ukuran yang disarankan: MP4 (H.264 + AAC), 720p, di bawah sekitar 15 MB, karena HP butuh file yang ringan walau batas file GitHub Pages jauh lebih besar. Muncul di layar final alignment dan bisa dibuka dari nav. Surat tetap utuh tanpa video. Jika `videoMessage.src` kosong di `content.js`, bagian ini tidak tampil sama sekali. **[call Claude untuk penempatan, takarir, dan batas ukuran]**
 
 ### Layout per perangkat
+- **HP (update):** panel cerita terbuka setinggi sekitar dua pertiga layar, dan langit di atasnya digeser supaya bintang yang dibuka terlihat. Panel membesar hampir penuh lewat handle atau saat dia mulai scroll. Di bawah bintang terakhir ada ruang langit kosong supaya bintang paling bawah juga bisa naik ke atas panel. **[call Claude]**
 - **HP:** langit vertikal setinggi sekitar 1,5 sampai 2 layar yang di-scroll, dan scroll itu menjadi sumber parallax. Saat panel terbuka, langit di belakangnya diam. Lima bintang cerita, bintang rahasia, dan titik surat tersusun zig-zag dengan area tap minimal 44px di lebar 360px. Bintang di-tap. Cerita terbuka sebagai panel dari bawah yang bisa diperluas hampir penuh, dengan langit tetap terlihat di bagian atas. Konten panjang (timeline, foto) di-scroll di dalam panel. Tidak ada peta lebar yang dipotong. Referensi memakai SVG `viewBox 1000x600` dengan `preserveAspectRatio="xMidYMid slice"`, yang kemungkinan besar memotong bintang dan label di tepi layar sempit. Itu harus diganti dengan susunan yang dirancang untuk HP. **[call Claude]**
 - **Desktop:** peta bintang luas di kiri, panel cerita di kanan, dan langit tetap terlihat. Langit satu layar penuh yang tidak di-scroll, parallax-nya mengikuti posisi pointer. Panel punya lebar normal sekitar 40 sampai 45 persen layar dan mode lebar untuk bagian yang butuh ruang (galeri foto, surat), di mana langit tetap terlihat sebagai strip gelap di kiri. Nav kecil untuk melompat antar bintang.
 - Ritme layout panel berganti antar bintang (satu kolom besar, terbagi dua, timeline vertikal, asimetris), bukan satu pola yang diulang.
@@ -117,6 +128,8 @@ Judul kerja: *A Universe Written for You*. **[user]**
 - The way I see you 5 sampai 8 titik. The odds 3 angka: hitungan hari sejak bertemu (dari `metDate`) dan dua angka personal lain. Wishes 3 tema.
 - Kalimat pembuka maksimal sekitar 12 kata. Teks yang lebih panjang dari placeholder tidak boleh merusak layout. Field kosong tidak ditampilkan.
 - Dua tanggal: `specialDate` (ulang tahun, tampil di opening) dan `metDate` (pertama bertemu, untuk hitungan hari). Tanggal ketiga, `futureLetter.openOn`, hanya untuk amplop tahun depan.
+- Nilainya: ulang tahun 1 November 2026, pertama bertemu 7 Juli 2025, amplop dibuka 1 November 2027. **[user]**
+- Copy yang ditulis AI dan terlihat final (kalimat pembuka, judul dan lead tiap cerita, catatan angka, sign-off) diubah jadi prompt dalam kurung siku supaya pembuat menulisnya sendiri. **[usul Claude, disetujui user]**
 - Seluruh situs berbahasa Inggris, termasuk isi cerita, dan `<html lang="en">`. **[user]** Teks UI (tombol, label bintang, label jujur "not a scientific probability", aria-label) tetap dikumpulkan di objek `ui` di `content.js` supaya mudah diubah.
 
 ### Teknis
