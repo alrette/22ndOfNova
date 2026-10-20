@@ -12,7 +12,7 @@
 //  - Add ?reset to the page address to clear saved progress.
 // ====================================================================
 
-export const herName = '[Her name]';
+export const herName = 'Nova';
 export const yourName = '[Your name]';
 export const specialDate = 'November 1';
 

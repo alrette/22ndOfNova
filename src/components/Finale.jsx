@@ -5,14 +5,15 @@ import { useFocusTrap } from '../hooks';
 import { Flourish } from './Ornament';
 import { FinalePhoto, SongButton } from './Extras';
 
-// The constellation she just completed, redrawn from the star map's own positions.
-const SRC = stars.map((s) => LAYOUT.desktop[s.id]);
+// The constellation she just completed (an N), redrawn from the star map's own positions.
+// The desktop sky is about 1.7 times wider than tall, so x is stretched to keep the shape.
+const SRC = stars.map((s) => ({ x: LAYOUT.desktop[s.id].x * 1.7, y: LAYOUT.desktop[s.id].y }));
 const xs = SRC.map((p) => p.x);
 const ys = SRC.map((p) => p.y);
-const PTS = SRC.map((p) => [
-  30 + ((p.x - Math.min(...xs)) / (Math.max(...xs) - Math.min(...xs))) * 340,
-  30 + ((p.y - Math.min(...ys)) / (Math.max(...ys) - Math.min(...ys))) * 160,
-]);
+const K = 160 / (Math.max(...ys) - Math.min(...ys));
+const X0 = 200 - ((Math.max(...xs) - Math.min(...xs)) * K) / 2;
+const PTS = SRC.map((p) => [X0 + (p.x - Math.min(...xs)) * K, 30 + (p.y - Math.min(...ys)) * K]);
+const HEART = PTS[2];
 const DUST = [
   [20, 60],
   [76, 28],
@@ -78,6 +79,17 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
               style={{ '--d': `${0.7 + i * 0.55}s` }}
             />
           ))}
+          {/* Nova: once the N is complete, its middle star goes supernova. */}
+          <g className="f-nova" transform={`translate(${HEART[0]} ${HEART[1]})`}>
+            <circle className="f-nova-ring r1" r="40" />
+            <circle className="f-nova-ring r2" r="40" />
+            <circle className="f-nova-ring r3" r="40" />
+            <circle className="f-nova-glow" r="46" fill="url(#fg)" />
+            <path
+              className="f-nova-spikes"
+              d="M0 -70C1 -12 12 -1 70 0C12 1 1 12 0 70C-1 12 -12 1 -70 0C-12 -1 -1 -12 0 -70Z"
+            />
+          </g>
           {PTS.map((p, i) => (
             <g key={`s${i}`} transform={`translate(${p[0]} ${p[1]})`}>
               <g className="f-star" style={{ '--d': `${0.25 + i * 0.55}s` }}>

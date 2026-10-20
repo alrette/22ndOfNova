@@ -1,6 +1,7 @@
 // Star positions as percentages of the sky.
 // Phone: a tall sky (about 1.75 screens) that scrolls, stars zig-zag down it.
-// Desktop: one full-screen sky, stars spread across it.
+// Desktop: one full-screen sky. The five stars trace an N, for Nova, in story order:
+// up the left stroke, down the diagonal, up the right stroke.
 // side = where the label sits: r (right), l (left), b (below), a (above).
 // Chosen so the constellation lines run through empty space, never through a label.
 export const LAYOUT = {
@@ -13,11 +14,11 @@ export const LAYOUT = {
     secret: { x: 78, y: 83, side: 'l' },
   },
   desktop: {
-    'first-light': { x: 16, y: 36, side: 'l' },
-    moments: { x: 33, y: 66, side: 'b' },
-    you: { x: 52, y: 30, side: 'a' },
-    odds: { x: 71, y: 62, side: 'b' },
-    wishes: { x: 87, y: 30, side: 'a' },
-    secret: { x: 60, y: 86, side: 'r' },
+    'first-light': { x: 24, y: 76, side: 'l' },
+    moments: { x: 26, y: 18, side: 'l' },
+    you: { x: 50, y: 47, side: 'r' },
+    odds: { x: 74, y: 76, side: 'r' },
+    wishes: { x: 76, y: 18, side: 'r' },
+    secret: { x: 90, y: 54, side: 'l' },
   },
 };

@@ -87,8 +87,8 @@ export default function Sky({
   // With the story panel open the desktop sky narrows: labels near an edge swap sides.
   const sideOf = (id) => {
     const p = pos[id];
-    if (isDesktop && panelOpen && p.x < 25) return 'r';
-    if (isDesktop && panelOpen && p.x > 75) return 'l';
+    if (isDesktop && panelOpen && p.x < 35) return 'r';
+    if (isDesktop && panelOpen && p.x > 65) return 'l';
     return p.side;
   };
 

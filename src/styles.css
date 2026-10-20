@@ -1651,6 +1651,32 @@ button {
   filter: drop-shadow(0 0 4px rgba(232, 176, 74, 0.8));
   animation: draw 0.8s var(--d) ease forwards;
 }
+.f-nova > * {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.f-nova-ring {
+  fill: none;
+  stroke: #ffe2a3;
+  stroke-width: 1.2;
+  animation: nova-ring 2.6s 3.25s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+.f-nova-ring.r2 {
+  stroke: #a9c0ff;
+  animation-delay: 3.45s;
+}
+.f-nova-ring.r3 {
+  animation-delay: 3.65s;
+}
+.f-nova-glow {
+  animation: nova-glow 3.4s 3.15s var(--ease) forwards;
+}
+.f-nova-spikes {
+  fill: #fff6dc;
+  filter: drop-shadow(0 0 6px rgba(255, 226, 163, 0.9));
+  animation: nova-spikes 2.8s 3.15s var(--ease) forwards;
+}
 .f-star {
   transform-box: fill-box;
   transform-origin: center;
@@ -2282,6 +2308,44 @@ button {
   100% {
     transform: translateY(-105vh);
     opacity: 0;
+  }
+}
+@keyframes nova-ring {
+  0% {
+    opacity: 0.95;
+    transform: scale(0.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(4.2);
+  }
+}
+@keyframes nova-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(2.6);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1.5);
+  }
+}
+@keyframes nova-spikes {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(-30deg);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1.15) rotate(0deg);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(0.45) rotate(8deg);
   }
 }
 @keyframes sky-turn {

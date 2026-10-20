@@ -11,18 +11,18 @@ export function Divider({ className = '' }) {
   );
 }
 
-// A tiny constellation with an orbit, drawn in when its parent appears.
+// A tiny constellation on a gentle arc (no zig-zag, so it never reads as a letter), with an orbit.
 export function Flourish({ className = '' }) {
   return (
     <svg className={`flourish ${className}`} viewBox="0 0 120 40" aria-hidden="true">
       <ellipse cx="60" cy="20" rx="56" ry="11" transform="rotate(-8 60 20)" pathLength="1" />
-      <path d="M14 26 38 12 60 22 84 8 106 18" pathLength="1" />
+      <path d="M14 26 38 17 60 14 84 17 106 26" pathLength="1" />
       {[
         [14, 26],
-        [38, 12],
-        [60, 22],
-        [84, 8],
-        [106, 18],
+        [38, 17],
+        [60, 14],
+        [84, 17],
+        [106, 26],
       ].map(([x, y], i) => (
         <circle key={x} cx={x} cy={y} r={i === 2 ? 2.4 : 1.6} style={{ '--i': i }} />
       ))}
