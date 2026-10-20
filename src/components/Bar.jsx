@@ -1,5 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { stars, herName, ui } from '../content';
+import { clearProgress } from '../store';
+
+// Only in preview builds (VITE_PREVIEW=1): the deployed site never shows it.
+const PREVIEW = import.meta.env.VITE_PREVIEW === '1';
 
 export default function Bar({
   visited,
@@ -66,6 +70,21 @@ export default function Bar({
           {allVisited && (
             <button type="button" className="menu-item" onClick={onReplay}>
               <span>{ui.replay}</span>
+            </button>
+          )}
+          {PREVIEW && (
+            <button
+              type="button"
+              className="menu-item"
+              onClick={() => {
+                clearProgress();
+                window.location.reload();
+              }}
+            >
+              <span>
+                Start over
+                <small>Preview only</small>
+              </span>
             </button>
           )}
         </nav>
