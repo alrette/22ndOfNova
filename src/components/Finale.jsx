@@ -3,6 +3,7 @@ import { finale, herName, stars, ui } from '../content';
 import { LAYOUT } from '../layout';
 import { useFocusTrap } from '../hooks';
 import { Flourish } from './Ornament';
+import { FinalePhoto, SongButton } from './Extras';
 
 // The constellation she just completed, redrawn from the star map's own positions.
 const SRC = stars.map((s) => LAYOUT.desktop[s.id]);
@@ -96,6 +97,7 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
           <Flourish className="finale-flourish" />
           <p className="finale-line">{finale.line}</p>
           {finale.note && <p className="finale-note">{finale.note}</p>}
+          <FinalePhoto />
           <div className="finale-actions">
             <button type="button" className="btn btn-primary" onClick={onLetter}>
               {ui.letterOpen}
@@ -105,6 +107,7 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
                 {ui.videoOpen}
               </button>
             )}
+            <SongButton />
             <button type="button" className="btn btn-ghost" onClick={onClose}>
               {ui.backToSky}
             </button>

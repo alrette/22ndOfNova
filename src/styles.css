@@ -185,6 +185,13 @@ button {
   font-size: 18px;
   color: var(--ivory);
 }
+.sound-btn {
+  margin-left: auto;
+  margin-right: 6px;
+}
+.sound-btn[aria-pressed='true'] {
+  color: var(--amber);
+}
 .menu-btn {
   display: flex;
   align-items: center;
@@ -824,6 +831,130 @@ button {
   color: var(--body);
 }
 
+/* ---------- The real sky at the moment they met ---------- */
+.skychart {
+  margin: 40px 0 8px;
+}
+.skychart-wait {
+  aspect-ratio: 1;
+  width: min(100%, 440px);
+  margin: 40px auto 8px;
+}
+.skychart svg {
+  display: block;
+  width: min(100%, 440px);
+  margin: 0 auto;
+  overflow: visible;
+}
+.sc-ring {
+  fill: none;
+  stroke: rgba(232, 176, 74, 0.4);
+  stroke-width: 0.8;
+  stroke-dasharray: 2 6;
+}
+.sc-horizon {
+  fill: none;
+  stroke: rgba(169, 192, 255, 0.5);
+  stroke-width: 1;
+}
+.sc-alt {
+  fill: none;
+  stroke: rgba(169, 192, 255, 0.13);
+  stroke-dasharray: 3 6;
+}
+.sc-mw {
+  fill: rgba(169, 192, 255, 0.05);
+}
+.sc-mw-5 {
+  fill: rgba(200, 215, 255, 0.08);
+}
+.sc-lines {
+  fill: none;
+  stroke: rgba(169, 192, 255, 0.5);
+  stroke-width: 0.8;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.sc-star {
+  opacity: 0;
+}
+.sc-planet {
+  fill: #ffd38a;
+  stroke: rgba(255, 211, 138, 0.35);
+  stroke-width: 4;
+}
+.sc-moon {
+  fill: #f4f0e8;
+}
+.sc-sun {
+  fill: #fff6dc;
+}
+.sc-label {
+  font: 400 17px var(--sans);
+  fill: var(--blue-lt);
+  paint-order: stroke;
+  stroke: #0b1530;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+.sc-label-sun,
+.sc-label-planet {
+  fill: #ffe2a3;
+}
+.sc-label-star {
+  fill: var(--body);
+}
+.sc-cardinal {
+  font: 600 17px var(--sans);
+  fill: var(--muted);
+}
+.skychart .sc-turn {
+  opacity: 0;
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+.skychart.in .sc-turn {
+  animation: sky-turn 3.2s var(--ease) both;
+}
+.skychart.in .sc-star {
+  animation: fade 1.2s var(--d) both;
+}
+.skychart.in .sc-lines {
+  animation: draw 3.4s 1.4s var(--ease) forwards;
+}
+.skychart.in .sc-label {
+  animation: fade 1s 2.2s both;
+}
+.skychart figcaption {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  margin-top: 16px;
+  text-align: center;
+}
+.skychart-title {
+  font: 400 21px / 1.25 var(--serif);
+  font-variation-settings: 'opsz' 48, 'SOFT' 100;
+  color: var(--ivory);
+  text-shadow: 0 0 16px rgba(169, 192, 255, 0.25);
+}
+.skychart-when {
+  font-size: 14px;
+  color: var(--blue-lt);
+}
+.skychart-day {
+  max-width: 40ch;
+  font-size: 14px;
+  color: var(--muted);
+}
+.skychart-note {
+  max-width: 34ch;
+  margin-top: 10px;
+  font: italic 400 18px / 1.5 var(--serif);
+  color: var(--body);
+}
+
 /* ---------- 2. Memories ---------- */
 .mem-wrap {
   container-type: inline-size;
@@ -1423,6 +1554,10 @@ button {
   animation: fade 1.4s 3.9s both;
 }
 .intro-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
   margin-top: 32px;
   animation: fade 1.4s 4.3s both;
 }
@@ -1444,6 +1579,7 @@ button {
 }
 .finale-card {
   position: relative;
+  z-index: 1;
 }
 .finale-rise {
   position: fixed;
@@ -1497,7 +1633,7 @@ button {
   outline: none;
 }
 .finale-sky {
-  width: min(560px, 100%);
+  width: min(560px, 100%, 54vh);
   height: auto;
   overflow: visible;
 }
@@ -1543,6 +1679,59 @@ button {
   max-width: 40ch;
   margin: 14px auto 0;
   color: var(--body);
+}
+.finale-photo {
+  margin: 28px auto 0;
+  width: min(210px, 56vw);
+  animation: photo-in 1.4s 3.9s var(--ease) both;
+}
+.finale-photo-frame {
+  aspect-ratio: 4 / 5;
+  padding: 10px 10px 0;
+  background: #f0ebdf;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(232, 176, 74, 0.5), 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 60px rgba(232, 176, 74, 0.18);
+  transform: rotate(-2deg);
+}
+.finale-photo-frame img {
+  display: block;
+  width: 100%;
+  height: calc(100% - 10px);
+  object-fit: cover;
+}
+.finale-photo figcaption {
+  margin-top: 14px;
+  font: italic 400 17px / 1.4 var(--serif);
+  color: var(--body);
+}
+.preview-missing {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 48px;
+  padding: 12px;
+  font: 400 13px / 1.4 var(--sans);
+  color: #5b6685;
+  text-align: center;
+  border: 1px dashed rgba(91, 102, 133, 0.6);
+}
+.song {
+  width: min(420px, 100%);
+}
+.song iframe {
+  display: block;
+  border: 0;
+  border-radius: 12px;
+}
+.song .preview-missing {
+  color: var(--muted);
+  border-color: rgba(169, 192, 255, 0.35);
+}
+.reply {
+  margin-top: 1.6em;
+}
+.reply .preview-missing {
+  height: auto;
 }
 .finale-actions {
   display: flex;
@@ -1830,6 +2019,16 @@ button {
   }
 }
 
+/* Wide screens: the last photo sits beside the words, so the buttons stay on screen. */
+@media (min-width: 1200px) and (min-height: 700px) {
+  .finale-photo {
+    position: absolute;
+    left: calc(100% + 12px);
+    bottom: 0;
+    margin: 0;
+  }
+}
+
 /* ---------- Motion ---------- */
 @keyframes fade {
   from {
@@ -2083,6 +2282,29 @@ button {
   100% {
     transform: translateY(-105vh);
     opacity: 0;
+  }
+}
+@keyframes sky-turn {
+  from {
+    opacity: 0;
+    transform: rotate(-70deg) scale(0.9);
+  }
+  25% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes photo-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 @keyframes copy-in {

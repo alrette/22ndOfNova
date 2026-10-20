@@ -1,7 +1,10 @@
-import { useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useMemo, useRef, useState } from 'react';
 import { timeline, memories, love, odds, wishes, secret, herName, metDate, ui } from '../content';
 import { asset, daysSince, useCountUp, useInView, useReveal } from '../hooks';
 import Sparkle from './Sparkle';
+// The star catalogue is the heaviest file on the site: it loads only when the first story opens.
+const SkyChart = lazy(() => import('./SkyChart'));
+import { sfx } from '../fx/sound';
 
 function Head({ star }) {
   return (
@@ -21,6 +24,9 @@ function Timeline({ star }) {
   return (
     <div ref={ref}>
       <Head star={star} />
+      <Suspense fallback={<div className="skychart-wait" />}>
+        <SkyChart />
+      </Suspense>
       <ol className="tl">
         {timeline.map((t, i) => (
           <li key={i} className="reveal">
@@ -106,6 +112,7 @@ function Love({ star }) {
   const ring = pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
 
   const pick = (i) => {
+    sfx.twinkle(i);
     setActive(active === i ? null : i);
     setSeen((s) => (s.includes(i) ? s : [...s, i]));
   };

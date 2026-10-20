@@ -3,6 +3,8 @@ import { letter, futureLetter, herName, yourName, ui } from '../content';
 import { useFocusTrap, parseDate, startOfToday } from '../hooks';
 import { Divider, Flourish } from './Ornament';
 import Sparkle from './Sparkle';
+import { ReplyButton } from './Extras';
+import { sfx } from '../fx/sound';
 
 // Sealed until futureLetter.openOn on her own device's clock. A ritual, not a lock.
 function FutureLetter() {
@@ -33,7 +35,14 @@ function FutureLetter() {
         </p>
       )}
       {unlocked && !open && (
-        <button type="button" className="btn btn-ink" onClick={() => setOpen(true)}>
+        <button
+          type="button"
+          className="btn btn-ink"
+          onClick={() => {
+            sfx.chime(4);
+            setOpen(true);
+          }}
+        >
           {ui.openFuture}
         </button>
       )}
@@ -89,6 +98,7 @@ export default function Letter({ onClose }) {
           <br />
           <em>{yourName}</em>
         </p>
+        <ReplyButton />
         <FutureLetter />
       </article>
     </div>

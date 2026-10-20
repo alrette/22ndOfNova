@@ -5,6 +5,7 @@ import { clearProgress, introSeen, loadProgress, markIntroSeen, saveProgress } f
 import { centerOf, fx, fxState } from './fx/bus';
 import Ambient from './fx/Ambient';
 import Touch from './fx/Touch';
+import { sfx } from './fx/sound';
 import Intro from './components/Intro';
 import Bar from './components/Bar';
 import Sky from './components/Sky';
@@ -45,6 +46,7 @@ export default function App() {
   const [letterOpen, setLetterOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [soundOn, setSoundOn] = useState(sfx.enabled);
   const timers = useRef([]);
 
   const hasVideo = Boolean(video.src);
@@ -94,9 +96,15 @@ export default function App() {
     if (locked) root.classList.add('locked');
   };
 
-  const enterSky = () => {
+  // withSound: true or false from the two opening buttons, undefined from "Skip intro".
+  const enterSky = (withSound) => {
     if (phase !== 'intro') return;
     markIntroSeen();
+    if (withSound !== undefined) {
+      sfx.setEnabled(withSound);
+      setSoundOn(withSound);
+    }
+    sfx.warp();
     if (reduced) {
       setRevealed(true);
       setPhase('sky');
@@ -113,6 +121,8 @@ export default function App() {
   const openStar = (id, el = starEl(id)) => {
     if (id === 'secret') setSecretFound(true);
     else setVisited((v) => (v.includes(id) ? v : [...v, id]));
+    if (id === 'secret') sfx.secret();
+    else sfx.chime(IDS.indexOf(id));
     setOpenId(id);
     setShownId(id);
     setMenuOpen(false);
@@ -137,6 +147,7 @@ export default function App() {
   const playAlignment = () => {
     clearTimers();
     setMenuOpen(false);
+    sfx.align();
     if (reduced) {
       openFinale();
       return;
@@ -158,6 +169,7 @@ export default function App() {
     const id = openId;
     setOpenId(null);
     setTravel(null);
+    sfx.close();
     requestAnimationFrame(() => {
       document.querySelector(`[data-star="${id}"]`)?.focus({ preventScroll: true });
     });
@@ -187,6 +199,7 @@ export default function App() {
     clearTimers();
     const from = shownId;
     setTravel({ from, to: nextId, key: Date.now() });
+    sfx.comet();
     if (!isDesktop) {
       setOpenId(null);
       const a = starEl(from)?.getBoundingClientRect();
@@ -219,6 +232,7 @@ export default function App() {
     setMenuOpen(false);
     setFinaleOpen(false);
     setLetterOpen(true);
+    sfx.paper();
   };
 
   const wide = shownId === 'moments';
@@ -251,6 +265,12 @@ export default function App() {
           setVideoOpen(true);
         }}
         onReplay={playAlignment}
+        soundOn={soundOn}
+        onToggleSound={() => {
+          sfx.setEnabled(!soundOn);
+          setSoundOn(!soundOn);
+          if (!soundOn) sfx.tick();
+        }}
       />
 
       <main className="stage">

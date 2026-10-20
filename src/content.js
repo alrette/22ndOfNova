@@ -66,6 +66,19 @@ export const stars = [
   },
 ];
 
+// ---------- Star 1: the real sky at the moment you met ----------
+// Real star, planet, Sun and Moon positions for this place and time, drawn
+// at the top of "The first light". time: local time with its UTC offset.
+// Remove `time` (or set it to '') to hide the chart.
+export const skyMoment = {
+  place: 'South Quarter, Cilandak',
+  lat: -6.2915,
+  lon: 106.7981,
+  time: '2025-07-07T12:00:00+07:00',
+  timeZone: 'Asia/Jakarta',
+  note: '[One line of your own about the stars that were there when you met, even though the daylight hid them.]',
+};
+
 // ---------- Star 1: timeline (4 to 6 entries) ----------
 // Merge or delete moments freely. The first one is YCC.
 export const timeline = [
@@ -174,6 +187,28 @@ export const finale = {
   greeting: 'Happy birthday,',
   line: 'I’m glad I attended YCC.',
   note: '[One honest sentence about why.]',
+  // One last photo after the YCC line, e.g. your first photo together. '' hides it.
+  photo: '',
+  photoAlt: '',
+  photoCaption: '[A few words under the photo]',
+  focus: '50% 40%',
+};
+
+// ---------- Her reply (optional) ----------
+// A button at the end of the letter that opens WhatsApp to you.
+// phone: country code + number, digits only (e.g. 6281234567890). '' hides it.
+export const reply = {
+  phone: '',
+  label: 'Tell me what you thought',
+  message: '',
+};
+
+// ---------- Our song (optional) ----------
+// Paste a Spotify track link (Share > Copy song link). It only loads when she taps it.
+export const song = {
+  title: '[Song title]',
+  artist: '[Artist]',
+  spotifyUrl: '',
 };
 
 // ---------- The letter ----------
@@ -232,4 +267,13 @@ export const ui = {
   opened: 'opened',
   sealedUntil: 'Sealed until',
   openFuture: 'Open it',
+  skyTitle: (place) => `The sky above ${place}`,
+  skyAria: (place, when) => `Star chart of the sky above ${place} on ${when}`,
+  skyDaylight: 'Real positions for that moment. The daylight hid every one of them.',
+  songOpen: 'Play our song',
+  beginSound: 'Begin with sound',
+  beginQuiet: 'Begin quietly',
+  soundOn: 'Sound on',
+  soundOff: 'Sound off',
+  previewMissing: (what) => `Preview only: add ${what} in content.js`,
 };

@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { stars, herName, ui } from '../content';
 import { clearProgress } from '../store';
-
-// Only in preview builds (VITE_PREVIEW=1): the deployed site never shows it.
-const PREVIEW = import.meta.env.VITE_PREVIEW === '1';
+import { PREVIEW } from '../preview';
 
 export default function Bar({
   visited,
@@ -15,6 +13,8 @@ export default function Bar({
   onLetter,
   onVideo,
   onReplay,
+  soundOn,
+  onToggleSound,
 }) {
   const ref = useRef(null);
 
@@ -32,6 +32,26 @@ export default function Bar({
   return (
     <header className="bar" ref={ref}>
       <span className="brand">{ui.brand(herName)}</span>
+      <button
+        type="button"
+        className="icon-btn sound-btn"
+        aria-pressed={soundOn}
+        aria-label={soundOn ? ui.soundOn : ui.soundOff}
+        title={soundOn ? ui.soundOn : ui.soundOff}
+        onClick={onToggleSound}
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 9.5h3l4.5-4v13l-4.5-4H4z" fill="currentColor" stroke="none" />
+          {soundOn ? (
+            <>
+              <path d="M15 9a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a7.5 7.5 0 0 1 0 11" />
+            </>
+          ) : (
+            <path d="M15.5 9.5l5 5M20.5 9.5l-5 5" />
+          )}
+        </svg>
+      </button>
       <button
         type="button"
         className="menu-btn"

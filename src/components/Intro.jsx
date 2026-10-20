@@ -35,7 +35,7 @@ export default function Intro({ onEnter, leaving, reduced }) {
           ))}
         </svg>
       ))}
-      <button type="button" className="intro-skip" onClick={onEnter}>
+      <button type="button" className="intro-skip" onClick={() => onEnter()}>
         {ui.skip}
       </button>
       <div className="intro-stage">
@@ -80,9 +80,14 @@ export default function Intro({ onEnter, leaving, reduced }) {
           <br />
           {specialDate}
         </p>
-        <button type="button" className="btn btn-primary intro-cta" onClick={onEnter} inert={!ready}>
-          {ui.begin}
-        </button>
+        <div className="intro-cta" inert={!ready}>
+          <button type="button" className="btn btn-primary" onClick={() => onEnter(true)}>
+            {ui.beginSound}
+          </button>
+          <button type="button" className="btn btn-ghost" onClick={() => onEnter(false)}>
+            {ui.beginQuiet}
+          </button>
+        </div>
       </div>
     </div>
   );
