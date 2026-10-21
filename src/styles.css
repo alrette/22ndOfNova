@@ -1562,6 +1562,72 @@ button {
   animation: fade 1.4s 4.3s both;
 }
 
+/* ---------- Waiting screen, before her birthday ---------- */
+.gate .intro-spark {
+  width: 34px;
+  height: 34px;
+  opacity: 0.75;
+}
+.gate:not(.leaving) .intro-spark.nudged {
+  animation: gate-nudge 0.9s var(--ease);
+}
+.gate-title {
+  margin-top: 34px;
+  font: 400 clamp(34px, 7vw, 60px) / 1.1 var(--serif);
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  letter-spacing: -0.015em;
+  color: var(--ivory);
+  text-shadow: 0 0 28px rgba(169, 192, 255, 0.32);
+  animation: rise 1.5s 1s var(--ease) both;
+}
+.gate-when {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--muted);
+  animation: fade 1.4s 1.6s both;
+}
+.gate-count {
+  display: flex;
+  justify-content: center;
+  gap: clamp(14px, 4vw, 30px);
+  margin-top: 30px;
+  font-size: 13px;
+  color: var(--muted);
+  animation: fade 1.4s 2s both;
+}
+.gate-count span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3.4em;
+}
+.gate-count b {
+  margin-bottom: 6px;
+  font: 400 clamp(30px, 7vw, 44px) / 1 var(--serif);
+  font-variant-numeric: tabular-nums;
+  color: var(--ivory);
+  text-shadow: 0 0 22px rgba(169, 192, 255, 0.3);
+}
+.gate-note {
+  max-width: 30ch;
+  margin-top: 30px;
+  font: italic 400 18px / 1.5 var(--serif);
+  color: var(--body);
+  animation: fade 1.4s 2.4s both;
+}
+.gate.leaving .gate-title,
+.gate.leaving .gate-when,
+.gate.leaving .gate-count,
+.gate.leaving .gate-note {
+  animation: intro-out 0.7s var(--ease) forwards;
+}
+@keyframes gate-nudge {
+  35% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+}
+
 /* ---------- Overlays: finale, letter, video ---------- */
 .overlay {
   position: fixed;

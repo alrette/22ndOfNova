@@ -5,9 +5,12 @@ import '@fontsource-variable/fraunces/full-italic.css';
 import '@fontsource-variable/schibsted-grotesk/wght.css';
 import './styles.css';
 import App from './App.jsx';
+import Gate from './components/Gate.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <Gate>
+      <App />
+    </Gate>
   </StrictMode>,
 );

@@ -19,6 +19,19 @@ export const specialDate = 'November 1';
 // The day you first met, as YYYY-MM-DD. Used to count the days.
 export const metDate = '2025-07-07';
 
+// ---------- Before her birthday ----------
+// Until opensAt the link shows only a waiting screen with a countdown.
+// If she has it open at that moment, the star ignites and the opening starts by itself.
+// opensAt: an exact moment with its UTC offset (+07:00 is WIB). '' turns the wait off.
+// secret: your way in to test early: add ?open=<secret> to the address. It lasts
+//   until that browser tab closes. A ritual, not a lock: the words are in the page code.
+// note: optional line under the countdown, from you. '' hides it.
+export const gate = {
+  opensAt: '2026-11-01T00:00:00+07:00',
+  secret: 'nduts0707',
+  note: '',
+};
+
 // ---------- Opening ----------
 // Your opening line, split over two or three short lines.
 // Under ~12 words in total. Save the YCC line for the end.
@@ -286,6 +299,10 @@ export const ui = {
   songOpen: 'Play our song',
   beginSound: 'Begin with sound',
   beginQuiet: 'Begin quietly',
+  gateTitle: (name) => `not yet, Sayang.`,
+  gateWhen: 'This sky opens on November 1, at midnight.',
+  gateStar: 'Not yet. Soon.',
+  gateUnits: ['day', 'hour', 'minute', 'second'],
   soundOn: 'Sound on',
   soundOff: 'Sound off',
   previewMissing: (what) => `Preview only: add ${what} in content.js`,
