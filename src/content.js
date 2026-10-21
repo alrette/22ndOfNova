@@ -15,6 +15,8 @@
 export const herName = 'Nova';
 export const yourName = 'nduts';
 export const specialDate = 'November 1';
+// Her birthday as MM-DD. On that day (any year) the site greets her a little differently.
+export const birthday = '11-01';
 
 // The day you first met, as YYYY-MM-DD. Used to count the days.
 export const metDate = '2025-07-07';
@@ -90,6 +92,17 @@ export const skyMoment = {
   time: '2025-07-07T12:00:00+07:00',
   timeZone: 'Asia/Jakarta',
   note: '[One line of your own about the stars that were there when you met, even though the daylight hid them.]',
+};
+
+// ---------- Star 1: the sky above her right now ----------
+// A second chart at the end of "The first light": the real sky over this place
+// at the moment she reads it. Set it to where she usually is. Remove `place` to hide it.
+export const skyNow = {
+  place: 'Jakarta',
+  lat: -6.2088,
+  lon: 106.8456,
+  timeZone: 'Asia/Jakarta',
+  note: '[One line of your own: then, and now.]',
 };
 
 // ---------- Star 1: timeline (4 to 6 entries) ----------
@@ -187,6 +200,20 @@ export const wishes = [
   },
 ];
 
+// ---------- Star 5: tickets, after the wishes ----------
+// Small promises she can cash in. With reply.phone filled in, tapping one opens
+// WhatsApp to you with the message below; without it they are just to keep.
+// Leave items empty to hide them.
+export const tickets = {
+  title: 'Three tickets, yours to use',
+  items: [
+    { title: '[One dinner, wherever you choose]', detail: '[Any small rule, or leave it empty]' },
+    { title: '[Something you two keep saying you will do]', detail: '' },
+    { title: '[Something only she would ask you for]', detail: '' },
+  ],
+  message: (title) => `I'm using my ticket: ${title}`,
+};
+
 // ---------- The faint star (appears after three stars are opened) ----------
 export const secret = {
   title: 'You found it.',
@@ -224,6 +251,24 @@ export const song = {
   spotifyUrl: 'https://open.spotify.com/track/1lORkxEMmsCZqhoxcmk3A3?si=f39c550a6a784e0a',
 };
 
+// ---------- More songs (optional) ----------
+// Songs that remind you of her, listed under our song on the birthday screen.
+// An entry stays hidden until it has a Spotify link. why: one line, in your own words.
+export const moreSongs = [
+  {
+    title: '[Song title]',
+    artist: '[Artist]',
+    spotifyUrl: '',
+    why: '[Why this one makes you think of her.]',
+  },
+  {
+    title: '[Song title]',
+    artist: '[Artist]',
+    spotifyUrl: '',
+    why: '[Why this one makes you think of her.]',
+  },
+];
+
 // ---------- The letter ----------
 export const letter = {
   title: 'Happy birthday,',
@@ -244,6 +289,25 @@ export const futureLetter = {
   title: 'For your next birthday',
   paragraphs: ['[A short letter for her to read on November 1, 2027.]'],
 };
+
+// ---------- "Open when..." envelopes (optional) ----------
+// Small envelopes under the letter that she can open any time, as often as she likes.
+// `when` finishes the sentence "Open when ...". Delete an entry, or leave its
+// paragraphs empty, to hide it. Two or three is plenty.
+export const openWhen = [
+  {
+    when: 'you’re tired',
+    paragraphs: ['[For a long day at work. What do you want her to hear when she has nothing left?]'],
+  },
+  {
+    when: 'you miss me',
+    paragraphs: ['[Something that sounds exactly like you. A memory, a promise, an inside joke.]'],
+  },
+  {
+    when: 'you doubt yourself',
+    paragraphs: ['[What you see in her that she forgets on bad days. Be specific.]'],
+  },
+];
 
 // ---------- Optional video message (leave src empty to hide it) ----------
 // Put the file in public/video/ and write 'video/message.mp4'.
@@ -293,10 +357,28 @@ export const ui = {
   opened: 'opened',
   sealedUntil: 'Sealed until',
   openFuture: 'Open it',
+  openWhen: 'Open when…',
+  wishChance: 'A shooting star. Make a wish.',
+  wishTitle: 'Make a wish',
+  wishNote: 'It stays in your sky, only on this device.',
+  wishPlaceholder: 'I wish…',
+  wishSend: 'Send it to the sky',
+  wishLater: 'Not now',
+  wishStar: (text) => `Your wish: ${text}`,
+  wishesTitle: (n) => `My wishes (${n})`,
+  wishesSave: 'Save my wishes',
+  wishesFile: 'My wishes, from the sky',
   skyTitle: (place) => `The sky above ${place}`,
   skyAria: (place, when) => `Star chart of the sky above ${place} on ${when}`,
   skyDaylight: 'Real positions for that moment. The daylight hid every one of them.',
   songOpen: 'Play our song',
+  moreSongs: 'Songs that remind me of you',
+  skyNowTitle: (place) => `The sky above ${place}, right now`,
+  skyNowDaylight: 'Daylight hides them right now. They are all still there.',
+  brandToday: (name) => `Happy birthday, ${name}`,
+  todayLine: 'Today is your day',
+  ticking: (h, m, s) => `and ${h} ${h === 1 ? 'hour' : 'hours'}, ${m} ${m === 1 ? 'minute' : 'minutes'}, ${s} ${s === 1 ? 'second' : 'seconds'}`,
+  ticketUse: 'Use it',
   beginSound: 'Begin with sound',
   beginQuiet: 'Begin quietly',
   gateTitle: (name) => `not yet, Sayang...`,

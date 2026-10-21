@@ -2,7 +2,8 @@
 // calm: letter or video is open, effects step back so the words land.
 // panelOpen: a story is open, no shooting stars.
 // Events: pull (stars lean toward a point), warp (light-speed streaks),
-// nova (a large burst with rings), flare (a small burst with one ring).
+// nova (a large burst with rings), flare (a small burst with one ring),
+// shoot (a shooting star just crossed the sky: her chance to make a wish).
 const listeners = {};
 
 export const fxState = { calm: false, panelOpen: false };

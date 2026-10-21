@@ -154,3 +154,9 @@ export function asset(path) {
   if (/^(https?:)?\/\//.test(path) || path.startsWith('data:')) return path;
   return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 }
+
+// True when today, on this device, is the given MM-DD (any year).
+export function isToday(mmdd) {
+  const d = new Date();
+  return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` === mmdd;
+}

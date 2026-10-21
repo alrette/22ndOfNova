@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { opening, herName, specialDate, ui } from '../content';
+import { birthday, opening, herName, specialDate, ui } from '../content';
+import { isToday } from '../hooks';
 import Sparkle from './Sparkle';
 
 const ORBIT_A = 'M20 130a280 80 0 1 0 560 0a280 80 0 1 0 -560 0';
@@ -78,7 +79,7 @@ export default function Intro({ onEnter, leaving, reduced }) {
         <p className="intro-for">
           {ui.madeFor} {herName}
           <br />
-          {specialDate}
+          {isToday(birthday) ? ui.todayLine : specialDate}
         </p>
         <div className="intro-cta" inert={!ready}>
           <button type="button" className="btn btn-primary" onClick={() => onEnter(true)}>

@@ -52,3 +52,23 @@ export function markIntroSeen() {
     /* ignore */
   }
 }
+
+// Her wishes, the little stars she adds herself. Kept apart from progress, so "Start over" leaves them.
+const WISHES = 'universe.wishes.v1';
+
+export function loadWishes() {
+  try {
+    const w = JSON.parse(localStorage.getItem(WISHES) || '[]');
+    return Array.isArray(w) ? w.filter((x) => x && typeof x.text === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveWishes(list) {
+  try {
+    localStorage.setItem(WISHES, JSON.stringify(list));
+  } catch {
+    /* private mode: the wish lasts this visit */
+  }
+}

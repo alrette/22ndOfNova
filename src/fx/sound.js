@@ -16,7 +16,7 @@ let reverb = null;
 let noiseBuf = null;
 let audio = null; // the music element, created on the first "start" tap
 let mGain = null;
-let held = false; // our song or the video is playing
+const holds = new Set(); // what is playing over the music right now: 'song', 'video'
 let duck = 1;
 let token = 0;
 let enabled = (() => {
@@ -91,7 +91,7 @@ function settle(secs, delay = 0) {
   if (!audio) return;
   token += 1;
   const mine = token;
-  if (enabled && !held && !document.hidden) {
+  if (enabled && !holds.size && !document.hidden) {
     ensure();
     audio.play().catch(() => {});
     ramp(cfg.volume * duck, secs, delay);
@@ -293,12 +293,13 @@ export const music = {
     }
     settle(4, delay);
   },
-  fadeOut() {
-    held = true;
+  // key: what is playing over the music. The music returns once nothing is.
+  fadeOut(key) {
+    holds.add(key);
     settle(1.5);
   },
-  fadeIn() {
-    held = false;
+  fadeIn(key) {
+    holds.delete(key);
     settle(3);
   },
   duck(level) {

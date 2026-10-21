@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { finale, reply, song, ui } from '../content';
+import { finale, moreSongs, reply, song, ui } from '../content';
 import { asset } from '../hooks';
 import { PREVIEW } from '../preview';
 import { music, sfx } from '../fx/sound';
@@ -49,14 +49,18 @@ function spotifyApi() {
   return apiReady;
 }
 
-// Our song: nothing loads from Spotify until she taps the button.
-// The background music steps aside while the song plays (or while the plain embed is open).
+// Our song, then any others that remind him of her: one player, a list to choose from.
+// Nothing loads from Spotify until she taps the button.
+// The background music steps aside while a song plays (or while the plain embed is open).
 export function SongButton() {
   const [open, setOpen] = useState(false);
   const [plain, setPlain] = useState(false); // the Spotify API failed: fall back to a plain iframe
+  const [pick, setPick] = useState(0);
   const host = useRef(null);
-  const src = spotifyEmbed(song.spotifyUrl);
-  const uri = spotifyUri(song.spotifyUrl);
+  const list = [song, ...(moreSongs || [])].filter((s) => s && spotifyUri(s.spotifyUrl));
+  const cur = list[pick];
+  const src = spotifyEmbed(cur?.spotifyUrl);
+  const uri = spotifyUri(cur?.spotifyUrl);
 
   useEffect(() => {
     if (!open || !uri) return undefined;
@@ -66,8 +70,8 @@ export function SongButton() {
     const hold = (on) => {
       if (on === holding) return;
       holding = on;
-      if (on) music.fadeOut();
-      else music.fadeIn();
+      if (on) music.fadeOut('song');
+      else music.fadeIn('song');
     };
     spotifyApi()
       .then((api) => {
@@ -114,16 +118,44 @@ export function SongButton() {
   return (
     <div className="song">
       {!src && missing('song.spotifyUrl')}
-      {src && !plain && <div ref={host} />}
+      {/* Keyed wrapper: Spotify swaps the inner div for its iframe, so each song gets a fresh one. */}
+      {src && !plain && (
+        <div key={uri}>
+          <div ref={host} />
+        </div>
+      )}
       {src && plain && (
         <iframe
-          title={`${song.title} by ${song.artist}`}
+          key={src}
+          title={`${cur.title} by ${cur.artist}`}
           src={src}
           width="100%"
           height="80"
           allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
         />
+      )}
+      {list.length > 1 && (
+        <div className="song-list">
+          <p className="song-list-title">{ui.moreSongs}</p>
+          <ol>
+            {list.map((s, i) => (
+              <li key={s.spotifyUrl}>
+                <button
+                  type="button"
+                  className={`song-pick ${i === pick ? 'is-on' : ''}`}
+                  aria-pressed={i === pick}
+                  onClick={() => setPick(i)}
+                >
+                  <span className="song-name">
+                    {s.title} <small>{s.artist}</small>
+                  </span>
+                  {s.why && <span className="song-why">{s.why}</span>}
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
       )}
     </div>
   );

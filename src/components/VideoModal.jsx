@@ -8,7 +8,7 @@ export default function VideoModal({ onClose }) {
   const ref = useRef(null);
   useFocusTrap(ref);
   // Closing the dialog mid-video fires no pause event we can hear, so release the music here.
-  useEffect(() => music.fadeIn, []);
+  useEffect(() => () => music.fadeIn('video'), []);
   return (
     <div
       className="overlay"
@@ -28,9 +28,9 @@ export default function VideoModal({ onClose }) {
           preload="metadata"
           poster={asset(video.poster) || undefined}
           src={asset(video.src)}
-          onPlay={music.fadeOut}
-          onPause={music.fadeIn}
-          onEnded={music.fadeIn}
+          onPlay={() => music.fadeOut('video')}
+          onPause={() => music.fadeIn('video')}
+          onEnded={() => music.fadeIn('video')}
         >
           {video.captions && (
             <track kind="captions" src={asset(video.captions)} srcLang="en" label="English" default />

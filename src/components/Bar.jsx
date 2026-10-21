@@ -1,6 +1,27 @@
 import { useEffect, useRef } from 'react';
-import { stars, herName, ui } from '../content';
+import { birthday, stars, herName, ui } from '../content';
+import { isToday } from '../hooks';
 import { clearProgress } from '../store';
+
+// Her wishes live only in this browser, so let her keep a copy:
+// the share sheet on phones (Notes, Files, a chat), a text file anywhere else.
+async function saveWishesFile(wishes) {
+  const day = (t) => new Date(t).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const text = `${ui.wishesFile}\n\n${wishes.map((w) => `✦ ${w.text}  (${day(w.t)})`).join('\n')}\n`;
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: ui.wishesFile, text });
+      return;
+    } catch (e) {
+      if (e.name === 'AbortError') return;
+    }
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+  a.download = 'my-wishes.txt';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
 
 export default function Bar({
   visited,
@@ -14,6 +35,7 @@ export default function Bar({
   onReplay,
   soundOn,
   onToggleSound,
+  wishes,
 }) {
   const ref = useRef(null);
 
@@ -27,10 +49,11 @@ export default function Bar({
   }, [menuOpen, setMenuOpen]);
 
   const done = stars.filter((s) => visited.includes(s.id)).length;
+  const today = isToday(birthday);
 
   return (
-    <header className="bar" ref={ref}>
-      <span className="brand">{ui.brand(herName)}</span>
+    <header className={`bar ${today ? 'is-birthday' : ''}`} ref={ref}>
+      <span className="brand">{today ? ui.brandToday(herName) : ui.brand(herName)}</span>
       <button
         type="button"
         className="icon-btn sound-btn"
@@ -90,6 +113,22 @@ export default function Bar({
             <button type="button" className="menu-item" onClick={onReplay}>
               <span>{ui.replay}</span>
             </button>
+          )}
+          {wishes.length > 0 && (
+            <details className="menu-wishes">
+              <summary className="menu-item">
+                <i className="menu-dot wish" aria-hidden="true" />
+                <span>{ui.wishesTitle(wishes.length)}</span>
+              </summary>
+              <ol>
+                {wishes.map((w) => (
+                  <li key={w.t}>{w.text}</li>
+                ))}
+              </ol>
+              <button type="button" className="btn btn-ghost wishes-save" onClick={() => saveWishesFile(wishes)}>
+                {ui.wishesSave}
+              </button>
+            </details>
           )}
           <button
             type="button"

@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { stars, ui, finale } from '../content';
-import { LAYOUT } from '../layout';
+import { LAYOUT, WISH_SLOTS } from '../layout';
 import Sparkle from './Sparkle';
+import { WishStar } from './Wish';
 
 const CAM_PULL = 0.3; // how far the camera brings the chosen star toward the centre
 const CAM_ZOOM = 1.08;
@@ -67,9 +68,11 @@ export default function Sky({
   revealed,
   finaleSeen,
   onOpen,
+  wishes,
 }) {
   const ref = useRef(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
+  const [wishOpen, setWishOpen] = useState(null);
 
   useLayoutEffect(() => {
     const ro = new ResizeObserver(([e]) =>
@@ -83,6 +86,9 @@ export default function Sky({
   const at = (id) => ({ x: (pos[id].x / 100) * size.w, y: (pos[id].y / 100) * size.h });
   const pairs = stars.slice(0, -1).map((s, i) => [s.id, stars[i + 1].id]);
   const panelOpen = Boolean(openId || travel);
+  const slots = isDesktop ? WISH_SLOTS.desktop : WISH_SLOTS.mobile;
+  // Each wish keeps its slot; past the last slot the newest takes the oldest one's place.
+  const shownWishes = wishes.map((w, i) => ({ w, s: slots[i % slots.length] })).slice(-slots.length);
 
   // With the story panel open the desktop sky narrows: labels near an edge swap sides.
   const sideOf = (id) => {
@@ -188,6 +194,18 @@ export default function Sky({
             onOpen={onOpen}
           />
         )}
+
+        {size.w > 0 &&
+          revealed &&
+          shownWishes.map(({ w, s }) => (
+            <WishStar
+              key={w.t}
+              wish={w}
+              p={{ x: (s.x / 100) * size.w, y: (s.y / 100) * size.h, left: s.x > 50 }}
+              open={wishOpen === w.t}
+              onToggle={() => setWishOpen(wishOpen === w.t ? null : w.t)}
+            />
+          ))}
 
         {size.w > 0 && travel && (
           <Comet key={travel.key} from={at(travel.from)} to={at(travel.to)} delay={isDesktop ? 0.15 : 0.45} />

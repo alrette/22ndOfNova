@@ -183,6 +183,7 @@ export default function Ambient({ reduced }) {
               t0: t,
               dur: 900,
             };
+            fx.emit('shoot');
           } else {
             nextShoot = t + 6000;
           }

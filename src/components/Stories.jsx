@@ -1,6 +1,6 @@
-import { lazy, Suspense, useMemo, useRef, useState } from 'react';
-import { timeline, memories, love, odds, wishes, secret, herName, metDate, ui } from '../content';
-import { asset, daysSince, useCountUp, useInView, useReveal } from '../hooks';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { timeline, memories, love, odds, wishes, tickets, reply, secret, herName, metDate, ui } from '../content';
+import { asset, daysSince, parseDate, useCountUp, useInView, useReveal } from '../hooks';
 import Sparkle from './Sparkle';
 // The star catalogue is the heaviest file on the site: it loads only when the first story opens.
 const SkyChart = lazy(() => import('./SkyChart'));
@@ -37,6 +37,9 @@ function Timeline({ star }) {
           </li>
         ))}
       </ol>
+      <Suspense fallback={null}>
+        <SkyChart now />
+      </Suspense>
     </div>
   );
 }
@@ -173,6 +176,23 @@ function Love({ star }) {
 }
 
 /* 4. How lucky I am: real counts, set large */
+const pad = (n) => String(n).padStart(2, '0');
+
+// The rest of the count, still running: hours, minutes and seconds since the day they met began.
+function Ticking() {
+  const [now, setNow] = useState(Date.now);
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const t = Math.floor((now - parseDate(metDate)) / 1000);
+  return (
+    <p className="odds-tick" aria-hidden="true">
+      {ui.ticking(Math.floor(t / 3600) % 24, Math.floor(t / 60) % 60, t % 60)}
+    </p>
+  );
+}
+
 function OddsRow({ item, days }) {
   const ref = useRef(null);
   const seen = useInView(ref);
@@ -187,6 +207,7 @@ function OddsRow({ item, days }) {
         <span className="sr-only">{numeric === null ? item.value : numeric.toLocaleString('en-US')}</span>
       </p>
       <p className="odds-label">{item.label}</p>
+      {isDays && <Ticking />}
       {item.note && <p className="odds-note">{item.note}</p>}
     </div>
   );
@@ -213,7 +234,48 @@ function Odds({ star }) {
   );
 }
 
-/* 5. Wishes: three small stars, set loosely */
+/* 5. Wishes: three small stars, set loosely, then the tickets that make them real */
+function Tickets() {
+  const items = (tickets?.items || []).filter((t) => t.title);
+  if (!items.length) return null;
+  const phone = (reply.phone || '').replace(/\D/g, '');
+  return (
+    <section className="tickets reveal" aria-labelledby="tickets-title">
+      <h3 id="tickets-title">{tickets.title}</h3>
+      <ul>
+        {items.map((t, i) => {
+          const inner = (
+            <>
+              <span className="ticket-main">
+                <span className="ticket-no">No. {pad(i + 1)}</span>
+                <span className="ticket-title">{t.title}</span>
+                {t.detail && <span className="ticket-detail">{t.detail}</span>}
+              </span>
+              {phone && <span className="ticket-stub">{ui.ticketUse}</span>}
+            </>
+          );
+          return (
+            <li key={i}>
+              {phone ? (
+                <a
+                  className="ticket"
+                  href={`https://wa.me/${phone}?text=${encodeURIComponent(tickets.message(t.title))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {inner}
+                </a>
+              ) : (
+                <div className="ticket">{inner}</div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 function Wishes({ star }) {
   const ref = useRef(null);
   useReveal(ref);
@@ -229,6 +291,7 @@ function Wishes({ star }) {
           </section>
         ))}
       </div>
+      <Tickets />
     </div>
   );
 }

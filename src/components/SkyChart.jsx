@@ -1,6 +1,6 @@
-import { useMemo, useRef } from 'react';
+import { useId, useMemo, useRef } from 'react';
 import sky from '../data/sky.json';
-import { skyMoment, ui } from '../content';
+import { skyMoment, skyNow, ui } from '../content';
 import { useInView, useReducedMotion } from '../hooks';
 import { PLANETS, altAz, julianDay, localSiderealTime, moonRaDec, planetRaDec, project, sunRaDec } from '../sky/astro';
 
@@ -96,15 +96,18 @@ function compute({ lat, lon, time }) {
   return { date, stars, lines, milky, sun, moon, planets, labels, day: sun.alt > -6 };
 }
 
-export default function SkyChart() {
+// The sky when they met, or (now) the sky above her at the moment she reads it.
+export default function SkyChart({ now = false }) {
+  const m = now ? skyNow : skyMoment;
   const reduced = useReducedMotion();
   const ref = useRef(null);
   const seen = useInView(ref);
-  const data = useMemo(() => compute(skyMoment), []);
+  const uid = useId().replace(/[^\w-]/g, ''); // two charts on one page need their own gradient ids
+  const data = useMemo(() => (m?.place ? compute(now ? { ...m, time: new Date() } : m) : null), [m, now]);
   if (!data) return null;
 
   const when = data.date.toLocaleString('en-US', {
-    timeZone: skyMoment.timeZone,
+    timeZone: m.timeZone,
     month: 'long',
     day: 'numeric',
     year: 'numeric',
@@ -114,16 +117,16 @@ export default function SkyChart() {
 
   return (
     <figure className={`skychart ${seen || reduced ? 'in' : ''}`} ref={ref}>
-      <svg viewBox={`${-R - 22} ${-R - 22} ${2 * R + 44} ${2 * R + 44}`} role="img" aria-label={ui.skyAria(skyMoment.place, when)}>
+      <svg viewBox={`${-R - 22} ${-R - 22} ${2 * R + 44} ${2 * R + 44}`} role="img" aria-label={ui.skyAria(m.place, when)}>
         <defs>
-          <clipPath id="sc-clip">
+          <clipPath id={`${uid}clip`}>
             <circle r={R} />
           </clipPath>
-          <radialGradient id="sc-bg">
+          <radialGradient id={`${uid}bg`}>
             <stop offset="0" stopColor="#13234d" />
             <stop offset="1" stopColor="#080f25" />
           </radialGradient>
-          <radialGradient id="sc-sun">
+          <radialGradient id={`${uid}sun`}>
             <stop offset="0" stopColor="#fff6dc" stopOpacity="1" />
             <stop offset="0.12" stopColor="#ffe2a3" stopOpacity="0.9" />
             <stop offset="0.4" stopColor="#e8b04a" stopOpacity="0.28" />
@@ -132,10 +135,10 @@ export default function SkyChart() {
         </defs>
         <circle r={R + 10} className="sc-ring" />
         <g className="sc-turn">
-          <g clipPath="url(#sc-clip)">
-            <circle r={R} fill="url(#sc-bg)" />
+          <g clipPath={`url(#${uid}clip)`}>
+            <circle r={R} fill={`url(#${uid}bg)`} />
             {data.milky.map((m) => m.d && <path key={m.level} d={m.d} className={`sc-mw sc-mw-${m.level}`} />)}
-            {data.day && <circle cx={data.sun.x} cy={data.sun.y} r="150" fill="url(#sc-sun)" className="sc-day" />}
+            {data.day && <circle cx={data.sun.x} cy={data.sun.y} r="150" fill={`url(#${uid}sun)`} className="sc-day" />}
             <circle r={R * Math.tan((30 / 2) * (Math.PI / 180))} className="sc-alt" />
             <circle r={R * Math.tan((60 / 2) * (Math.PI / 180))} className="sc-alt" />
             <path d={data.lines.join('')} className="sc-lines" pathLength="1" />
@@ -175,10 +178,10 @@ export default function SkyChart() {
         ))}
       </svg>
       <figcaption>
-        <span className="skychart-title">{ui.skyTitle(skyMoment.place)}</span>
+        <span className="skychart-title">{now ? ui.skyNowTitle(m.place) : ui.skyTitle(m.place)}</span>
         <span className="skychart-when">{when}</span>
-        {data.day && <span className="skychart-day">{ui.skyDaylight}</span>}
-        {skyMoment.note && <span className="skychart-note">{skyMoment.note}</span>}
+        {data.day && <span className="skychart-day">{now ? ui.skyNowDaylight : ui.skyDaylight}</span>}
+        {m.note && <span className="skychart-note">{m.note}</span>}
       </figcaption>
     </figure>
   );

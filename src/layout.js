@@ -22,3 +22,28 @@ export const LAYOUT = {
     secret: { x: 90, y: 54, side: 'l' },
   },
 };
+
+// Where her wishes appear: empty sky away from the N, the lines and every label.
+// A wish past the last slot takes the place of the oldest one.
+export const WISH_SLOTS = {
+  mobile: [
+    { x: 8, y: 9 },
+    { x: 90, y: 13 },
+    { x: 8, y: 31 },
+    { x: 92, y: 42 },
+    { x: 8, y: 59 },
+    { x: 91, y: 70 },
+    { x: 10, y: 88 },
+    { x: 52, y: 95 },
+  ],
+  desktop: [
+    { x: 50, y: 22 },
+    { x: 9, y: 34 },
+    { x: 91, y: 32 },
+    { x: 40, y: 88 },
+    { x: 62, y: 9 },
+    { x: 9, y: 58 },
+    { x: 60, y: 90 },
+    { x: 38, y: 8 },
+  ],
+};

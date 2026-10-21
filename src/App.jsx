@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stars, video, ui } from './content';
 import { useMedia, useReducedMotion } from './hooks';
-import { clearProgress, introSeen, loadProgress, markIntroSeen, saveProgress } from './store';
+import { clearProgress, introSeen, loadProgress, loadWishes, markIntroSeen, saveProgress, saveWishes } from './store';
 import { centerOf, fx, fxState } from './fx/bus';
 import Ambient from './fx/Ambient';
 import Touch from './fx/Touch';
@@ -13,6 +13,7 @@ import Panel from './components/Panel';
 import Finale from './components/Finale';
 import Letter from './components/Letter';
 import VideoModal from './components/VideoModal';
+import { WishChance, WishDialog } from './components/Wish';
 
 const IDS = stars.map((s) => s.id);
 const SECRET_AFTER = 3; // stars opened before the faint star shows up
@@ -47,6 +48,9 @@ export default function App() {
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(sfx.enabled);
+  const [wishes, setWishes] = useState(loadWishes);
+  const [wishChance, setWishChance] = useState(false);
+  const [wishOpen, setWishOpen] = useState(false);
   const timers = useRef([]);
 
   const hasVideo = Boolean(video.src);
@@ -72,6 +76,14 @@ export default function App() {
     saveProgress({ visited, secretFound, finaleSeen });
   }, [visited, secretFound, finaleSeen]);
 
+  // A shooting star leaves a few seconds to make a wish.
+  useEffect(() => fx.on('shoot', () => setWishChance(true)), []);
+  useEffect(() => {
+    if (!wishChance) return undefined;
+    const id = setTimeout(() => setWishChance(false), 8000);
+    return () => clearTimeout(id);
+  }, [wishChance]);
+
   useEffect(() => {
     fxState.calm = letterOpen || videoOpen;
   }, [letterOpen, videoOpen]);
@@ -84,9 +96,9 @@ export default function App() {
 
   // A phone sheet or dialog covers the sky, so the page behind it stays put.
   useEffect(() => {
-    const lock = phase === 'intro' || (!isDesktop && (openId || finaleOpen || letterOpen || videoOpen));
+    const lock = phase === 'intro' || (!isDesktop && (openId || finaleOpen || letterOpen || videoOpen || wishOpen));
     document.documentElement.classList.toggle('locked', Boolean(lock));
-  }, [phase, isDesktop, openId, finaleOpen, letterOpen, videoOpen]);
+  }, [phase, isDesktop, openId, finaleOpen, letterOpen, videoOpen, wishOpen]);
 
   // On a phone, bring a point of the tall sky into the given share of the screen.
   const scrollSkyTo = (y, share) => {
@@ -222,7 +234,8 @@ export default function App() {
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (letterOpen) setLetterOpen(false);
+      if (wishOpen) setWishOpen(false);
+      else if (letterOpen) setLetterOpen(false);
       else if (videoOpen) setVideoOpen(false);
       else if (finaleOpen) setFinaleOpen(false);
       else if (menuOpen) setMenuOpen(false);
@@ -231,6 +244,23 @@ export default function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   });
+
+  const sendWish = (text) => {
+    const w = { text, t: Date.now() };
+    const next = [...wishes, w];
+    setWishes(next);
+    saveWishes(next);
+    setWishOpen(false);
+    sfx.secret();
+    // Once the new star is in the sky, bring it into view and let it flare.
+    requestAnimationFrame(() => {
+      const el = document.querySelector(`[data-wish="${w.t}"]`);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      scrollSkyTo(window.scrollY + r.top + r.height / 2, 0.45);
+      if (!reduced) later(() => fx.emit('flare', centerOf(el)), isDesktop ? 50 : 450);
+    });
+  };
 
   const openLetter = () => {
     setMenuOpen(false);
@@ -270,6 +300,7 @@ export default function App() {
         }}
         onReplay={playAlignment}
         soundOn={soundOn}
+        wishes={wishes}
         onToggleSound={() => {
           sfx.setEnabled(!soundOn);
           setSoundOn(!soundOn);
@@ -293,6 +324,7 @@ export default function App() {
           revealed={revealed}
           finaleSeen={finaleSeen}
           onOpen={openStar}
+          wishes={wishes}
         />
         <Panel
           id={shownId}
@@ -322,6 +354,16 @@ export default function App() {
       )}
       {letterOpen && <Letter onClose={() => setLetterOpen(false)} />}
       {videoOpen && <VideoModal onClose={() => setVideoOpen(false)} />}
+      {wishChance && phase === 'sky' && !openId && !travel && !aligning && !finaleOpen && !letterOpen && !videoOpen && !wishOpen && (
+        <WishChance
+          onClick={() => {
+            setWishChance(false);
+            setMenuOpen(false);
+            setWishOpen(true);
+          }}
+        />
+      )}
+      {wishOpen && <WishDialog onSend={sendWish} onClose={() => setWishOpen(false)} />}
 
       <Touch reduced={reduced} />
     </div>
