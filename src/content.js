@@ -299,7 +299,7 @@ export const ui = {
   songOpen: 'Play our song',
   beginSound: 'Begin with sound',
   beginQuiet: 'Begin quietly',
-  gateTitle: (name) => `not yet, Sayang.`,
+  gateTitle: (name) => `not yet, Sayang...`,
   gateWhen: 'This sky opens on November 1, at midnight.',
   gateStar: 'Not yet. Soon.',
   gateUnits: ['day', 'hour', 'minute', 'second'],
