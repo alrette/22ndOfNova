@@ -46,7 +46,7 @@ Butuh Node **20.19 atau lebih baru**.
 npm install
 npm run dev        # development, buka alamat yang muncul
 npm run build      # hasil jadi di folder dist/
-VITE_PREVIEW=1 npm run build   # versi preview: tombol "Start over" + placeholder untuk field kosong
+VITE_PREVIEW=1 npm run build   # versi preview: placeholder untuk field kosong
 npm run preview    # cek hasil build di http://localhost:4173
 ```
 

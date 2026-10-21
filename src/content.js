@@ -274,6 +274,7 @@ export const ui = {
   letterOpen: 'Read my letter',
   videoOpen: 'Watch my message',
   replay: 'Replay the ending',
+  startOver: 'Start over',
   secretLabel: 'A faint star. Tap it.',
   photoHere: 'Your photo goes here',
   opened: 'opened',

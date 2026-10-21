@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { stars, herName, ui } from '../content';
 import { clearProgress } from '../store';
-import { PREVIEW } from '../preview';
 
 export default function Bar({
   visited,
@@ -92,21 +91,16 @@ export default function Bar({
               <span>{ui.replay}</span>
             </button>
           )}
-          {PREVIEW && (
-            <button
-              type="button"
-              className="menu-item"
-              onClick={() => {
-                clearProgress();
-                window.location.reload();
-              }}
-            >
-              <span>
-                Start over
-                <small>Preview only</small>
-              </span>
-            </button>
-          )}
+          <button
+            type="button"
+            className="menu-item"
+            onClick={() => {
+              clearProgress();
+              window.location.reload();
+            }}
+          >
+            <span>{ui.startOver}</span>
+          </button>
         </nav>
       )}
     </header>
