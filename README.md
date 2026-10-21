@@ -27,9 +27,12 @@ Semua yang personal ada di satu file: **`src/content.js`**. Apa pun yang ada di 
 12. **Foto terakhir di finale** (`finale.photo`, `photoAlt`, `photoCaption`): misalnya foto pertama kalian berdua.
 13. **Balasan** (`reply.phone`): nomor WhatsApp lu, kode negara + angka saja, misalnya `6281234567890`. `reply.message` boleh diisi sebagai teks awal.
 14. **Our song** (`song.spotifyUrl`): di Spotify, Share → Copy song link, lalu tempel. Isi juga `title` dan `artist`.
-15. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
+15. **Musik latar** (`music`): file ada di `public/music/ambient.mp3` (Clair de lune, Debussy). Ganti musiknya dengan menimpa file itu, atau taruh file lain di `public/music/` dan ubah `music.src` (mis. `'music/lagu-lain.mp3'`, tanpa `/` di depan). Ubah juga `title` dan `artist`. `credit` buat catatan sumber/lisensi rekamannya (belum ditampilkan di situs). `volume` (0 sampai 1) relatif terhadap sound effect. Kosongkan `src` kalau mau tanpa musik sama sekali; filenya tidak dimuat. Pakai rekaman domain publik atau yang lu punya haknya. Musik diputar loop, jadi file pendek pun tidak masalah, dan sebaiknya di bawah ~5 MB.
+16. **`refs/`**: folder buat referensi desain lu. Tidak ikut ke website.
 
-Sound effect tidak perlu diisi apa-apa. Dia memilih sendiri di layar pembuka: "Begin with sound" atau "Begin quietly", dan bisa diubah lewat ikon speaker di atas.
+Sound effect dan musik tidak perlu diisi apa-apa. Dia memilih sendiri di layar pembuka: "Begin with sound" (efek + musik) atau "Begin quietly" (tanpa keduanya; mp3-nya tidak pernah diunduh), dan bisa diubah lewat ikon speaker di atas. Musik memudar saat lagu Spotify atau video diputar, dan menurun sedikit saat surat dibuka.
+
+**Soal "Play our song":** embed Spotify hanya memutar lagu penuh kalau dia sedang login ke Spotify di browser itu. Kalau tidak, yang terdengar cuma preview 30 detik. Kalau lu mau dia dengar lagu penuh, bilang dia login dulu, atau kirim juga link lagunya.
 
 Kalau mau update data bintang dari katalog: `node scripts/make-sky-data.mjs` (hasilnya `src/data/sky.json`, sudah ikut di repo).
 
@@ -117,6 +120,7 @@ src/fx/               bintang jauh (Ambient) + pop/trail sentuhan (Touch)
 src/components/       Intro, Sky, Panel, Stories, Finale, Letter, VideoModal
 public/photos/        foto lu
 public/video/         video pesan lu
+public/music/         musik latar (ambient.mp3)
 refs/                 referensi desain (tidak ikut build)
 DESIGN.md             keputusan desain + alasan
 docs/PLAN.md          rencana kerja

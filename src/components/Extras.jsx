@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { finale, reply, song, ui } from '../content';
 import { asset } from '../hooks';
 import { PREVIEW } from '../preview';
-import { sfx } from '../fx/sound';
+import { music, sfx } from '../fx/sound';
 
 const missing = (what) => <span className="preview-missing">{ui.previewMissing(what)}</span>;
 
@@ -23,15 +23,79 @@ export function FinalePhoto() {
   );
 }
 
+const spotifyId = (url) =>
+  /open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist)\/([A-Za-z0-9]+)/.exec(url || '');
 const spotifyEmbed = (url) => {
-  const m = /open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist)\/([A-Za-z0-9]+)/.exec(url || '');
+  const m = spotifyId(url);
   return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0` : '';
 };
+const spotifyUri = (url) => {
+  const m = spotifyId(url);
+  return m ? `spotify:${m[1]}:${m[2]}` : '';
+};
+
+let apiReady;
+// Loaded on the first tap only. Rejects if the script is blocked or never answers.
+function spotifyApi() {
+  apiReady ||= new Promise((resolve, reject) => {
+    window.onSpotifyIframeApiReady = resolve;
+    const s = document.createElement('script');
+    s.src = 'https://open.spotify.com/embed/iframe-api/v1';
+    s.async = true;
+    s.onerror = reject;
+    document.body.append(s);
+    setTimeout(reject, 8000);
+  });
+  return apiReady;
+}
 
 // Our song: nothing loads from Spotify until she taps the button.
+// The background music steps aside while the song plays (or while the plain embed is open).
 export function SongButton() {
   const [open, setOpen] = useState(false);
+  const [plain, setPlain] = useState(false); // the Spotify API failed: fall back to a plain iframe
+  const host = useRef(null);
   const src = spotifyEmbed(song.spotifyUrl);
+  const uri = spotifyUri(song.spotifyUrl);
+
+  useEffect(() => {
+    if (!open || !uri) return undefined;
+    let dead = false;
+    let controller;
+    let holding = false;
+    const hold = (on) => {
+      if (on === holding) return;
+      holding = on;
+      if (on) music.fadeOut();
+      else music.fadeIn();
+    };
+    spotifyApi()
+      .then((api) => {
+        if (dead) return;
+        api.createController(host.current, { uri, width: '100%', height: 80 }, (c) => {
+          if (dead) {
+            c.destroy();
+            return;
+          }
+          controller = c;
+          c.addListener('playback_update', ({ data: d }) => {
+            if ((d.duration > 0 && d.position >= d.duration) || d.isPaused) hold(false);
+            else if (d.isPaused === false) hold(true);
+          });
+        });
+      })
+      .catch(() => {
+        if (dead) return;
+        setPlain(true);
+        hold(true);
+      });
+    return () => {
+      dead = true;
+      controller?.destroy();
+      hold(false);
+    };
+  }, [open, uri]);
+
   if (!src && !PREVIEW) return null;
   if (!open) {
     return (
@@ -49,7 +113,9 @@ export function SongButton() {
   }
   return (
     <div className="song">
-      {src ? (
+      {!src && missing('song.spotifyUrl')}
+      {src && !plain && <div ref={host} />}
+      {src && plain && (
         <iframe
           title={`${song.title} by ${song.artist}`}
           src={src}
@@ -58,8 +124,6 @@ export function SongButton() {
           allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
         />
-      ) : (
-        missing('song.spotifyUrl')
       )}
     </div>
   );

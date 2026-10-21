@@ -29,7 +29,7 @@ Judul kerja: *A Universe Written for You*. **[user]**
 ### Non-goals
 - Simulasi galaksi 3D. Langit adalah 2D (SVG dan canvas). **[user, lewat konsep yang disetujui]**
 - Backend, akun, analytics, atau pelacakan apa pun. **[call Claude]**
-- Musik atau suara yang bunyi otomatis. **[call Claude]** (Sound effect ada, tapi dia sendiri yang memilih "Begin with sound" atau "Begin quietly" di opening, lihat bagian 7.)
+- Musik yang bunyi sebelum dia mengetuk apa pun: musik hanya bunyi setelah dia memilih "Begin with sound", tidak pernah sebelum ketukan itu. **[user]** (Sound effect dan musik latar sama-sama mengikuti pilihan "Begin with sound" atau "Begin quietly" di opening, lihat bagian 7.)
 - Statistik hubungan nasional atau probabilitas yang diklaim sebagai fakta. Hanya angka personal, atau angka bersumber dengan penjelasan jujur. **[user, lewat konsep yang disetujui]**
 - Mengunci surat atau doa di balik game yang sulit. Eksplorasi harus terasa menyenangkan, bukan tugas. **[user, lewat konsep yang disetujui]**
 
@@ -169,3 +169,11 @@ Posisi tepatnya tiap bintang, urutan visual peta, pemilihan font final, timing d
   - *Sound effect* disintesis Web Audio, tanpa file: tiap bintang punya nada dari satu skala pentatonik, komet berbunyi whoosh, warp, akor saat alignment, suara kertas di surat. Pilihan suara di opening, tombol on/off di bar, diingat di perangkat. Semua field opsional tersembunyi kalau kosong; build preview menampilkan placeholder.
 - Nama dia Nova. **[user]** Di desktop kelima bintang membentuk huruf N, sesuai urutan cerita (naik di garis kiri, turun di diagonal, naik di garis kanan), dan konstelasi di finale menggambar N yang sama. Bentuk W sengaja dihindari karena bisa dibaca sebagai inisial orang lain. **[user]** Setelah N selesai, bintang tengahnya meledak jadi supernova (cincin, sinar, lalu tetap berpendar pelan). Hiasan kecil memakai lengkung, bukan zig-zag, supaya tidak terbaca sebagai huruf. **[call Claude, user minta supernova kalau tidak jelek]** Di HP langit tetap zig-zag vertikal karena di-scroll.
 - Urutan penutup: kelima bintang terbuka, konstelasi menyatu, "I'm glad I attended YCC", lalu video (jika ada) dan tombol surat. Di dalam surat ada amplop untuk tahun depan, dan footer mengulang kalimat YCC dalam ukuran kecil. **[usul Claude, disetujui user]**
+- **Musik latar** **[user]** (`music` di `content.js`, file `public/music/ambient.mp3`, Debussy "Clair de lune" rekaman domain publik):
+  - Mulai hanya setelah dia mengetuk "Begin with sound". "Begin quietly" berarti tanpa musik, dan file mp3 tidak pernah diminta. Kalau nanti dia menyalakan suara lewat ikon speaker di bar, musik mulai saat itu; mematikannya membuat musik memudar lalu berhenti (pause).
+  - Berulang (loop). Memudar masuk sekitar 4 detik setelah warp ke langit. Volume sekitar 35% dari level sound effect supaya denting tetap di atas. `music.src` kosong mematikan musik sepenuhnya dan tidak ada yang dimuat.
+  - "Play our song" (embed Spotify): musik latar memudar keluar (sekitar 1,5 detik) dan pause selama lagu kalian bermain. Saat lagu dijeda atau selesai, musik latar memudar masuk lagi (sekitar 3 detik) dan melanjutkan dari posisi terakhir.
+  - Video pesan: sama seperti lagu. Memudar keluar saat video diputar, memudar masuk saat dijeda atau selesai.
+  - Surat terbuka: musik diturunkan ke sekitar 60% dari levelnya, dan kembali normal saat surat ditutup.
+  - Tab tersembunyi: musik pause. Tab terlihat lagi dan suara menyala: lanjut dengan fade singkat.
+  - Sound effect disetel ke tangga nada pentatonik D-flat mayor (kunci Clair de lune) supaya selaras dengan musiknya.

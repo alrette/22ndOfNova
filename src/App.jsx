@@ -5,7 +5,7 @@ import { clearProgress, introSeen, loadProgress, markIntroSeen, saveProgress } f
 import { centerOf, fx, fxState } from './fx/bus';
 import Ambient from './fx/Ambient';
 import Touch from './fx/Touch';
-import { sfx } from './fx/sound';
+import { music, sfx } from './fx/sound';
 import Intro from './components/Intro';
 import Bar from './components/Bar';
 import Sky from './components/Sky';
@@ -76,6 +76,9 @@ export default function App() {
     fxState.calm = letterOpen || videoOpen;
   }, [letterOpen, videoOpen]);
   useEffect(() => {
+    music.duck(letterOpen ? 0.6 : 1);
+  }, [letterOpen]);
+  useEffect(() => {
     fxState.panelOpen = openId !== null || aligning;
   }, [openId, aligning]);
 
@@ -103,6 +106,7 @@ export default function App() {
     if (withSound !== undefined) {
       sfx.setEnabled(withSound);
       setSoundOn(withSound);
+      if (withSound) music.start(reduced ? 0 : 2); // the fade waits out the warp
     }
     sfx.warp();
     if (reduced) {
@@ -269,7 +273,10 @@ export default function App() {
         onToggleSound={() => {
           sfx.setEnabled(!soundOn);
           setSoundOn(!soundOn);
-          if (!soundOn) sfx.tick();
+          if (!soundOn) {
+            sfx.tick();
+            music.start();
+          }
         }}
       />
 

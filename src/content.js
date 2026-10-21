@@ -13,7 +13,7 @@
 // ====================================================================
 
 export const herName = 'Nova';
-export const yourName = '[Your name]';
+export const yourName = 'nduts';
 export const specialDate = 'November 1';
 
 // The day you first met, as YYYY-MM-DD. Used to count the days.
@@ -23,7 +23,7 @@ export const metDate = '2025-07-07';
 // Your opening line, split over two or three short lines.
 // Under ~12 words in total. Save the YCC line for the end.
 export const opening = {
-  lines: ['[A line only you', 'could say to her]'],
+  lines: ['Hai Sayang!!', 'Here\'s a little birthday gift for you'],
 };
 
 // ---------- The five stars ----------
@@ -208,7 +208,7 @@ export const reply = {
 export const song = {
   title: '[Song title]',
   artist: '[Artist]',
-  spotifyUrl: '',
+  spotifyUrl: 'https://open.spotify.com/track/1RMJOxR6GRPsBHL8qeC2ux?si=8cc79bcc5f144308',
 };
 
 // ---------- The letter ----------
@@ -240,6 +240,18 @@ export const video = {
   src: '',
   poster: '', // e.g. 'photos/video-poster.jpg'
   captions: '', // optional .vtt file, e.g. 'video/message.vtt'
+};
+
+// ---------- Background music (optional) ----------
+// Put the file in public/music/ and write 'music/ambient.mp3'. It only plays after she
+// chooses "Begin with sound". '' turns music off and nothing loads.
+// volume: 0 to 1, relative to the sound effects. credit: shown nowhere yet, keep it for your records.
+export const music = {
+  src: 'music/ambient.mp3',
+  title: 'Clair de lune',
+  artist: 'Claude Debussy',
+  credit: '',
+  volume: 0.35,
 };
 
 // ---------- Interface text ----------

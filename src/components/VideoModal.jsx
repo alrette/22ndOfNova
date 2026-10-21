@@ -1,11 +1,14 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { video, ui } from '../content';
 import { asset, useFocusTrap } from '../hooks';
+import { music } from '../fx/sound';
 
 // Never autoplays. Metadata only until she presses play, so it costs nothing on a phone plan.
 export default function VideoModal({ onClose }) {
   const ref = useRef(null);
   useFocusTrap(ref);
+  // Closing the dialog mid-video fires no pause event we can hear, so release the music here.
+  useEffect(() => music.fadeIn, []);
   return (
     <div
       className="overlay"
@@ -19,7 +22,16 @@ export default function VideoModal({ onClose }) {
             <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         </button>
-        <video controls playsInline preload="metadata" poster={asset(video.poster) || undefined} src={asset(video.src)}>
+        <video
+          controls
+          playsInline
+          preload="metadata"
+          poster={asset(video.poster) || undefined}
+          src={asset(video.src)}
+          onPlay={music.fadeOut}
+          onPause={music.fadeIn}
+          onEnded={music.fadeIn}
+        >
           {video.captions && (
             <track kind="captions" src={asset(video.captions)} srcLang="en" label="English" default />
           )}
