@@ -206,9 +206,9 @@ export const reply = {
 // ---------- Our song (optional) ----------
 // Paste a Spotify track link (Share > Copy song link). It only loads when she taps it.
 export const song = {
-  title: '[Song title]',
-  artist: '[Artist]',
-  spotifyUrl: 'https://open.spotify.com/track/1RMJOxR6GRPsBHL8qeC2ux?si=8cc79bcc5f144308',
+  title: 'Nothing',
+  artist: 'Bruno Major',
+  spotifyUrl: 'https://open.spotify.com/track/1lORkxEMmsCZqhoxcmk3A3?si=f39c550a6a784e0a',
 };
 
 // ---------- The letter ----------
