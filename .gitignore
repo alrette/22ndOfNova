@@ -1,3 +1,6 @@
 node_modules
 dist
 .DS_Store
+
+# Full-size originals of the photos, kept out of git and the deploy
+originals/

@@ -48,8 +48,8 @@ export const stars = [
     id: 'first-light',
     label: 'The first light',
     sub: 'How it started',
-    title: '[A heading about how it began at YCC]',
-    lead: '[One sentence to set the scene.]',
+    title: 'It all began at YCC',
+    lead: "An event yang bahkan tadinya aku gamau datengin karena banyak temen-temen lama aku. Which I knew, aku bakal sedih dan sakit hati when I see them.",
   },
   {
     id: 'moments',
@@ -91,7 +91,7 @@ export const skyMoment = {
   lon: 106.7981,
   time: '2025-07-07T12:00:00+07:00',
   timeZone: 'Asia/Jakarta',
-  note: '[One line of your own about the stars that were there when you met, even though the daylight hid them.]',
+  note: "But look at the stars that day, sayang. Ada banyak sekali bintang dan planet yang berkumpul di atas kepala kita hari itu. Even the Sun was there. It felt like they were all encouraging us to meet, as if they couldn't wait to witness our first interaction.",
 };
 
 // ---------- Star 1: the sky above her right now ----------
@@ -102,36 +102,36 @@ export const skyNow = {
   lat: -6.2088,
   lon: 106.8456,
   timeZone: 'Asia/Jakarta',
-  note: '[One line of your own: then, and now.]',
+  note: "I hope you get a good star on your birthday, by!",
 };
 
 // ---------- Star 1: timeline (4 to 6 entries) ----------
 // Merge or delete moments freely. The first one is YCC.
 export const timeline = [
   {
-    date: '[When]',
-    title: 'The first encounter',
-    text: '[At YCC: where was she standing when you first noticed her, and what was she doing? Two or three honest sentences.]',
+    date: "July 7, 2025",
+    title: "The first encounter",
+    text: "It's funny, padahal kamu datang dengan teman-teman kamu, aku juga datang dengan teman aku. But somehow we ended up in the same study group! As if it's just a coincidence(?) I don't think so. Dan rasa penasaran sudah tumbuh di aku sejak pertama, since aku terpana with your beauty. AHAHAHAHA",
   },
   {
-    date: '[When]',
-    title: 'The first conversation',
-    text: '[What did you actually talk about? Quote a line if you remember one.]',
+    date: "July 7, 2025",
+    title: "The first conversation",
+    text: "Damn, I was someone yang sangat takut untuk open up ke orang baru saat itu. I was just there to be an ex-AIESECer and see what's happening in the event. Ngobrol sama kamu di grup buat study group is our first interaction. We discussed some events that only existed in our heads (now we're discussing our dates HAHAHA). You were also very supportive, sayang, lending me your phone for the scripts, and you also gave me bakpia after the presentation. I'm happy for it!",
   },
   {
-    date: '[When]',
-    title: 'The moment things changed',
-    text: '[The specific day you knew. What happened?]',
+    date: "",
+    title: "The moment things changed",
+    text: "Demo tahun lalu, anehnya, jadi jembatan buat kita berdua, sayang. We started to talk tentang pemerintahan, lalu pindah ke WhatsApp, talked about Demon Slayer, ayam woku, susah tidur, callan sambil main Mobile Legends. And then one day I felt the urge to call you \"Sayang\". It was crazy, I don't know why... But I don't regret kenekatanku sih HAHAHAHAHA. After all the conversations and keasikan selama ngobrol, I could feel the warmth from you. Which I like. I wanna be with you...",
   },
   {
-    date: '[When]',
-    title: 'The little moments that made us closer',
-    text: '[Two or three small, ordinary things only the two of you would recognise.]',
+    date: "",
+    title: "The little moments that made us closer",
+    text: "After that we met in person. We became even closer since then. BluBlu jadi perantara kedekatan kita. AND YOU WERE SO CUTE. I really love to see you wear BluBlu. We had a great night at Manekineko. Who would've thought our first date would be at Manekineko??\n\nAfter that we went to Quantum juga ga sih, sayangg? Kita masakin satu sama lain ayam woku, main PS, and eventually we got even closer. We hugged, you lay down sambil aku pelukin, dan kita main Mario xixixixi\n\nFinally we went to the aquarium and watched a movie. And that's the day we started dating xixixixix",
   },
   {
-    date: 'Today',
-    title: 'Today, and your new chapter',
-    text: '[Where you both are now, and what this birthday starts for her.]',
+    date: "Today",
+    title: "Today, and your new chapter",
+    text: "And now here we are, sayang. We are always around when we need each other, we love each other, we listen to each other. I'm really grateful to have you as my partner. 😘",
   },
 ];
 
@@ -222,11 +222,42 @@ export const secret = {
   alt: '',
 };
 
+// ---------- The film reel on the birthday screen (optional) ----------
+// Photos that roll past on two strips of film under the YCC line, edge to edge:
+// odd entries on the top strip, even ones on the bottom, in this order.
+// Files live in public/photos/marquee/, numbered by the date they were taken.
+// Frames are square: `focus` (default '50% 40%') keeps a face in the crop.
+// alt: a few words for screen readers. An empty list hides the reel.
+export const reel = [
+  { image: 'photos/marquee/reel-01.jpg', alt: '' },
+  { image: 'photos/marquee/reel-02.jpg', alt: '' },
+  { image: 'photos/marquee/reel-03.jpg', alt: '' },
+  { image: 'photos/marquee/reel-04.jpg', alt: '' },
+  { image: 'photos/marquee/reel-05.jpg', alt: '' },
+  { image: 'photos/marquee/reel-06.jpg', alt: '' },
+  { image: 'photos/marquee/reel-07.jpg', alt: '' },
+  { image: 'photos/marquee/reel-08.jpg', alt: '' },
+  { image: 'photos/marquee/reel-09.jpg', alt: '' },
+  { image: 'photos/marquee/reel-10.jpg', alt: '' },
+  { image: 'photos/marquee/reel-11.jpg', alt: '' },
+  { image: 'photos/marquee/reel-12.jpg', alt: '' },
+  { image: 'photos/marquee/reel-13.jpg', alt: '' },
+  { image: 'photos/marquee/reel-14.jpg', alt: '' },
+  { image: 'photos/marquee/reel-15.jpg', alt: '' },
+  { image: 'photos/marquee/reel-16.jpg', alt: '' },
+  { image: 'photos/marquee/reel-17.jpg', alt: '' },
+  { image: 'photos/marquee/reel-18.jpg', alt: '' },
+  { image: 'photos/marquee/reel-19.jpg', alt: '' },
+  { image: 'photos/marquee/reel-20.jpg', alt: '' },
+  { image: 'photos/marquee/reel-21.jpg', alt: '' },
+  { image: 'photos/marquee/reel-22.jpg', alt: '' },
+];
+
 // ---------- The ending (after all five stars) ----------
 export const finale = {
   greeting: 'Happy birthday,',
   line: 'I’m glad I attended YCC.',
-  note: '[One honest sentence about why.]',
+  note: 'Hence, I was able to meet you, my Love',
   // One last photo after the YCC line, e.g. your first photo together. '' hides it.
   photo: '',
   photoAlt: '',

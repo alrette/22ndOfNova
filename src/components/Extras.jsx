@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { finale, moreSongs, reply, song, ui } from '../content';
+import { finale, moreSongs, reel, reply, song, ui } from '../content';
 import { asset } from '../hooks';
 import { PREVIEW } from '../preview';
 import { music, sfx } from '../fx/sound';
@@ -20,6 +20,42 @@ export function FinalePhoto() {
       </div>
       {finale.photoCaption && <figcaption>{finale.photoCaption}</figcaption>}
     </figure>
+  );
+}
+
+// One strip of film on the birthday screen: `top` sits above the constellation, the other below the words.
+// Both carry every photo; the lower one starts halfway through the list and runs the same way at the
+// same speed, so a photo and its twin always stay half a strip apart.
+// The strip holds its photos twice and slides by half its length, so the loop has no seam.
+export function Reel({ top = false }) {
+  const shots = (reel || []).filter((r) => r.image);
+  if (!shots.length && !PREVIEW) return null;
+  const all = shots.length ? shots : [{}, {}, {}, {}];
+  const mid = Math.ceil(all.length / 2);
+  const order = top ? all : [...all.slice(mid), ...all.slice(0, mid)];
+  // Repeat until half the strip is wider than the widest screen, or an empty stretch rolls into view.
+  const half = Array.from({ length: Math.ceil(44 / order.length) }, () => order).flat();
+  return (
+    <div className={`reel ${top ? 'reel-top' : 'reel-bottom'}`}>
+      <div className="reel-strip">
+        <div className="reel-track" style={{ '--n': half.length }}>
+          {[...half, ...half].map((r, i) => (
+            <figure key={i} className="reel-frame" aria-hidden={!top || i >= order.length || undefined}>
+              {r.image ? (
+                <img
+                  src={asset(r.image)}
+                  alt={top && i < order.length ? r.alt || '' : ''}
+                  decoding="async"
+                  style={{ objectPosition: r.focus || '50% 40%' }}
+                />
+              ) : (
+                missing('reel')
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

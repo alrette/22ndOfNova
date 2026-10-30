@@ -3,7 +3,7 @@ import { finale, herName, stars, ui } from '../content';
 import { LAYOUT } from '../layout';
 import { useFocusTrap } from '../hooks';
 import { Flourish } from './Ornament';
-import { FinalePhoto, SongButton } from './Extras';
+import { FinalePhoto, Reel, SongButton } from './Extras';
 
 // The constellation she just completed (an N), redrawn from the star map's own positions.
 // The desktop sky is about 1.7 times wider than tall, so x is stretched to keep the shape.
@@ -57,6 +57,7 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
         ref={ref}
         tabIndex={-1}
       >
+        <Reel top />
         <svg className="finale-sky" viewBox="0 0 400 220" aria-hidden="true">
           <defs>
             <radialGradient id="fg">
@@ -110,6 +111,7 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
           <p className="finale-line">{finale.line}</p>
           {finale.note && <p className="finale-note">{finale.note}</p>}
           <FinalePhoto />
+          <Reel />
           <div className="finale-actions">
             <button type="button" className="btn btn-primary" onClick={onLetter}>
               {ui.letterOpen}
