@@ -3,7 +3,7 @@ import { finale, herName, stars, ui } from '../content';
 import { LAYOUT } from '../layout';
 import { useFocusTrap } from '../hooks';
 import { Flourish } from './Ornament';
-import { FinalePhoto, Reel, SongButton } from './Extras';
+import { Reel, SongButton } from './Extras';
 
 // The constellation she just completed (an N), redrawn from the star map's own positions.
 // The desktop sky is about 1.7 times wider than tall, so x is stretched to keep the shape.
@@ -110,7 +110,6 @@ export default function Finale({ onClose, onLetter, onVideo, hasVideo }) {
           <Flourish className="finale-flourish" />
           <p className="finale-line">{finale.line}</p>
           {finale.note && <p className="finale-note">{finale.note}</p>}
-          <FinalePhoto />
           <Reel />
           <div className="finale-actions">
             <button type="button" className="btn btn-primary" onClick={onLetter}>

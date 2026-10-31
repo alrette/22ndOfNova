@@ -3,7 +3,7 @@ import { letter, futureLetter, openWhen, herName, yourName, ui } from '../conten
 import { useFocusTrap, parseDate, startOfToday } from '../hooks';
 import { Divider, Flourish } from './Ornament';
 import Sparkle from './Sparkle';
-import { ReplyButton } from './Extras';
+import { FinalePhoto, ReplyButton } from './Extras';
 import { sfx } from '../fx/sound';
 
 const Envelope = () => (
@@ -140,6 +140,7 @@ export default function Letter({ onClose }) {
         {letter.paragraphs.map((p, i) => (
           <p key={i}>{p}</p>
         ))}
+        <FinalePhoto />
         <p className="signoff">
           {letter.signoff}
           <br />

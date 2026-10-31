@@ -28,10 +28,15 @@ export const metDate = '2025-07-07';
 // secret: your way in to test early: add ?open=<secret> to the address. It lasts
 //   until that browser tab closes. A ritual, not a lock: the words are in the page code.
 // note: optional line under the countdown, from you. '' hides it.
+// password: asked once the day arrives, then remembered on her device. Not case
+//   or space sensitive. Also a ritual, not a lock. '' turns it off.
+// hint: the question shown above the password field.
 export const gate = {
   opensAt: '2026-11-01T00:00:00+07:00',
   secret: 'nduts0707',
   note: '',
+  password: 'seirockya',
+  hint: 'Ramen favorit aku di Puri dari brand apa? (no space)',
 };
 
 // ---------- Opening ----------
@@ -55,28 +60,28 @@ export const stars = [
     id: 'moments',
     label: 'Moments I keep',
     sub: 'A few small days',
-    title: '[A heading for your photos]',
-    lead: '[One or two sentences: why these days and not others.]',
+    title: "Days I'd live again",
+    lead: "Hari-hari yang masih sering aku putar ulang di kepala, sayang.",
   },
   {
     id: 'you',
     label: 'The way I see you',
     sub: 'What I notice',
-    title: '[A heading for the things you notice about her]',
-    lead: '[One sentence about something she probably does not know you see.]',
+    title: 'You are perfect',
+    lead: "I can't describe you with another word. Perfect is the only word that I can use to describe you. I always adore you, amazed with everything you do. I love everything tentang kamu, by.",
   },
   {
     id: 'odds',
     label: 'How lucky I am',
     sub: 'Numbers, sort of',
-    title: '[A heading about how lucky this feels]',
-    lead: '[One sentence about how unlikely meeting her was.]',
+    title: 'The odds of us',
+    lead: "Nih aku kasih beberapa angka kaya bagaimana hokinya kita sampe ketemu disini sayang WKWKWKWKWK",
   },
   {
     id: 'wishes',
     label: 'My wishes for you',
     sub: 'For the year ahead',
-    title: '[A heading for your wishes]',
+    title: "Some hopes yang aku harap beneran terjadi, AMIN",
     lead: '',
   },
 ];
@@ -140,28 +145,52 @@ export const timeline = [
 // image: 'photos/first-date.jpg'   focus: where to keep the crop, e.g. '50% 30%'
 export const memories = [
   {
-    date: '[When]',
-    title: '[A title for this day]',
-    caption: '[Why do I remember this?]',
-    image: '',
-    alt: '',
-    focus: '50% 40%',
+    date: "October 3, 2025",
+    title: "Our Manekineko date",
+    caption: "Manekineko date tuh beneran jadi pembalik keadaan banget sih, byy. Pertama kali kita jalan berdua, and I was surprised kamu keliatan cantikkk banget. Aku langsung fall in love hari itu, dan rasanya mau deket terus sama kamu.",
+    image: 'photos/moments/moment-1.jpg',
+    alt: "Us at Manekineko, you in a blue cat hoodie blanket",
+    focus: '50% 45%',
   },
   {
-    date: '[When]',
-    title: '[A title for this day]',
-    caption: '[Why do I remember this?]',
-    image: '',
-    alt: '',
-    focus: '50% 40%',
+    date: "October 18, 2025",
+    title: "The day I asked you",
+    caption: "Damn, aku kepikiran terus seharian tentang bagaimana aku bisa nembak kamu, dan apakah aku udah bisa nembak kamu dengan keadaan aku sekarang. But at the end I did ask you to be my girlfriend, dan aku ga pernah nyesel dengan keputusan aku.",
+    image: 'photos/moments/moment-2.jpg',
+    alt: "Our silhouettes in front of the big aquarium tank",
+    focus: '50% 60%',
   },
   {
-    date: '[When]',
-    title: '[A title for this day]',
-    caption: '[Why do I remember this?]',
-    image: '',
-    alt: '',
-    focus: '50% 40%',
+    date: "",
+    title: "Our first photobooth",
+    caption: "Aku rasa ini photobooth pertama kita, sayang? Aku suka banget sama foto-foto itu, dan itu bikin aku jadi pengen punya foto sama kamu terus. TAPI AKU MASIH SERING LUPA. I hope aku punya lebih banyak foto yang bagus sama kamu ke depannya!!",
+    image: 'photos/moments/moment-3.jpg',
+    alt: "Us in cowboy hats, you kissing my cheek",
+    focus: '50% 35%',
+  },
+  {
+    date: "February 22, 2026",
+    title: "Our favourite thing so far",
+    caption: "Aku sampe sekarang kangen kita ice skating tau, byy... Tapi kadang aku masih takut jatoh, anjay anjay, and it's kinda expensive HAHAHA. Well, so I hope antara kita bisa nyari duit yang kenceng, atau nyari activity baru yang bisa kita nikmati ahihihihi.",
+    image: 'photos/moments/moment-4.jpg',
+    alt: "Us on the ice rink, arms out",
+    focus: '50% 60%',
+  },
+  {
+    date: "November 22, 2025",
+    title: "Concert, we should do more",
+    caption: "AKU MAU CONCERT LAGI. Aku suka banget nyanyi-nyanyi sama kamu, apalagi lagunya Sal Priadi dan Nadin Amizah. I really love the moments that we had there. Ayo kita nyari festival lagi, sayang!! Atau kita pilih satu artis yang mau kita tonton.",
+    image: 'photos/moments/moment-5.jpg',
+    alt: "A selfie of us on the grass at a festival",
+    focus: '55% 22%',
+  },
+  {
+    date: "August 23, 2026",
+    title: "We look so cute and sassy here!",
+    caption: "Damn, beneran deh: warna baju kita yang couple, gaya rambut kamu yang sassy, dan ekspresi kita yang tengil. Aku suka banget sama foto ini, and eventually it became one of my favourite photos!",
+    image: 'photos/moments/moment-6.jpg',
+    alt: "Us pouting at the camera in matching maroon",
+    focus: '40% 50%',
   },
 ];
 
@@ -169,12 +198,48 @@ export const memories = [
 // label: 1 to 3 words. detail: a moment that shows it, not an adjective.
 // photo and story are optional: leave '' to show only the detail.
 export const love = [
-  { label: '[Trait 1]', detail: '[A moment that shows it. Not "you are kind": when were you kind?]', photo: '', photoAlt: '', story: '' },
-  { label: '[Trait 2]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
-  { label: '[Trait 3]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
-  { label: '[Trait 4]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
-  { label: '[Trait 5]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
-  { label: '[Trait 6]', detail: '[A moment that shows it]', photo: '', photoAlt: '', story: '' },
+  {
+    label: "Kind-hearted",
+    detail: "Kamu adalah orang yang sangat baik, kamu ga pernah jahat sama orang-orang di sekitar kamu, by. Aku merasakan sekali kebaikan dari kamu. Kamu selalu membantu siapa pun itu selagi kamu bisa, kamu selalu berkata hal-hal yang baik, kamu bisa menyenangkan hati orang. You are bright, as long as I've observed you, sayang.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
+  {
+    label: "Supportive",
+    detail: "Even saat kamu down, saat kamu lagi capek dan seharusnya kamu yang paling butuh untuk di-support, justru kamulah orang yang selalu support aku kapan pun itu. Sometimes aku tahu kamu lagi capek, tapi kamu tetap nyemangatin aku untuk segala hal yang aku lakukan. So I hope kamu juga bisa merasakan apa yang aku rasakan dari support kamu, byyy.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
+  {
+    label: "Funny",
+    detail: "Kamu tuh orangnya sebenernya lucu banget, humoris, aku suka. Kalau ngelawak kadang kocak, gajelas, garing, but menurut aku hal-hal seperti itulah yang selalu bikin aku balik lagi, balik lagi ke kamu. Even mungkin belakangan ini kamu capek, jadi kamu ga terlalu mengeluarkan emosi kamu, I hope that I can see your smile and also your laugh every day hihi.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
+  {
+    label: "Strong, fr",
+    detail: "Very strong, indeed. Kamu selalu mengusahakan hidup kamu dan keluarga kamu. Kamu kerja sangat keras dan mungkin hanya bisa menikmati sedikit dari apa yang kamu hasilkan. It must've been very heavy for you lately, apalagi dengan banyaknya tantangan yang lagi kamu hadapi dan aku yang jarang bisa nemenin kamu belakangan. But you're still able to stand, work, and keep going. Pasti berat, pasti capek, but kamu tetap keep going, and I know it must not have been easy. So kamu keren, cool, strong banget.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
+  {
+    label: "Smart",
+    detail: "Kamu tuh pinter banget tau, by. Kamu selalu bilang kalau aku pinter, but kamu harus lihat seberapa pinter kamu sebenernya. Pinternya kamu tuh yang street smart gitu loh, dan aku rasa itu keren banget. Apalagi emotional intelligence, kamu tuh juaranya deh. Kadang kalau lagi sama orang baru, aku berharap aku bawa kamu biar ada yang memecah awkwardness dalam ngobrol hehehehe.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
+  {
+    label: "Sabarrr banget",
+    detail: "Aku sering banget bikin kamu marah dan jengkel, tapi kamu selalu akhirnya maafin aku, akhirnya mau ngertiin aku, dan aku sangat-sangat senang dengan sifat kamu yang itu. AKU JUGA HARUS MEMPERBAIKI DIRI biar kamu ga harus tahan-tahan emosi terus. But dengan kamu yang bisa sabar kapan pun itu, aku jadi tenang, karena setiap masalah di hubungan kita bisa diselesaikan dengan berdiskusi, karena kita ga meledak satu sama lain hehehe.",
+    photo: '',
+    photoAlt: '',
+    story: '',
+  },
 ];
 
 // ---------- Star 4: numbers ----------
@@ -182,21 +247,33 @@ export const love = [
 // Real counts only. If it is not a number you can stand behind, make it a sentence.
 export const odds = {
   items: [
-    { kind: 'days', label: 'days since we met', note: '[One line about what those days have been like.]' },
-    { value: '[N]', label: '[something you count together]', note: '[One line about it.]' },
-    { value: '[N]', label: '[another number only the two of you would know]', note: '' },
+    { kind: 'days', label: 'days since we met', note: "demn by butuh campur tangan Tuhan" },
+    {
+      value: '400,000,000,000,000,000',
+      label: 'to 1: the odds of you being born at all',
+      note: "Bayangin aja by aku cari tau tentang kaya seberapa kemungkinan manusia itu lahir dan actually kecil banget anjir kaya kemungkinannya SEGITU, jadi kaya kecil banget ga sih kemungkinan dimana kita ketemu even dari kesempatan kita lahir dan HIDUP di this wowonomy LOLOLOOLOL",
+    },
+    {
+      value: '285,000',
+      label: 'to 1: the odds of finding your person on any given night',
+      note: "Ini itungan orang by, dan dia ngitung kaya sesusah itu buat ketemu orang yang pas APALAGI INDONESIA KAN GEDE YA. kaya banyak banget hal yang mendorong kita ketemu, jadi di Indonesia, masuk binus, ikut ycc, satu group, chattan atau engga, BANYAKKK BANGET VARIABELNYA",
+    },
   ],
-  disclaimer:
-    'Not a scientific probability. Just my way of saying how unlikely and wonderful this feels.',
 };
 
 // ---------- Star 5: wishes (3) ----------
 export const wishes = [
-  { title: 'For your heart', text: '[What you hope she feels in the year ahead, specifically.]' },
-  { title: 'For your dreams', text: '[Name the thing she is working hardest on.]' },
   {
-    title: 'For who you are becoming',
-    text: '[How you have watched her grow, and what you hope stays the same.]',
+    title: "For your heart",
+    text: "Tahun ini mungkin jadi tahun yang berat buat kamu, sayang. Banyak banget hal yang terjadi tahun ini. Aku selalu berharap nantinya kamu akhirnya menemukan ketenangan yang kamu butuhkan. Aku berharap kamu bisa selalu kuat dalam menghadapi semua (walau sambil nangis). Aku juga berharap kamu makin bisa bahagia, sayang.",
+  },
+  {
+    title: "For your dreams",
+    text: "Aku berharap kamu bisa mencapai mimpi kamu, sayang. Pekerjaan yang baik dengan lingkungan yang baik pula, hidup yang nyaman, dan eventually kamu bisa membantu orang-orang di sekitar kamu tanpa merasa terbebani. Aku berharap kamu bisa lebih menikmati hidup kamu dengan hasil kerja keras kamu sendiri, sayang. I love you.",
+  },
+  {
+    title: "For who you are becoming",
+    text: "Aku berharap traits yang sudah aku sebutkan sebelumnya tetap ada. Aku berharap kamu tetap jadi diri kamu, dan kamu ga menahan emosi kamu. Aku mau kamu jadi orang yang bisa menjadi diri sendiri tanpa menyembunyikan emosi yang ada. I always love you, by, and you have to know it hehehehehe.",
   },
 ];
 
@@ -207,9 +284,9 @@ export const wishes = [
 export const tickets = {
   title: 'Three tickets, yours to use',
   items: [
-    { title: '[One dinner, wherever you choose]', detail: '[Any small rule, or leave it empty]' },
-    { title: '[Something you two keep saying you will do]', detail: '' },
-    { title: '[Something only she would ask you for]', detail: '' },
+    { title: 'One dinner, wherever you choose', detail: '' },
+    { title: 'A day at KidZania', detail: "We've been talking about this so much." },
+    { title: 'Anything you want', detail: "As long as I'm able to do it." },
   ],
   message: (title) => `I'm using my ticket: ${title}`,
 };
@@ -217,7 +294,7 @@ export const tickets = {
 // ---------- The faint star (appears after three stars are opened) ----------
 export const secret = {
   title: 'You found it.',
-  text: '[The most personal thing you want to say. This one is only for her.]',
+  text: 'We know that our religion would be something yang selalu kita pusingin, but I will always fight for us and I hope that you always love me too and support me by my side. I Love You sayanggg!',
   image: '',
   alt: '',
 };
@@ -258,10 +335,10 @@ export const finale = {
   greeting: 'Happy birthday,',
   line: 'I’m glad I attended YCC.',
   note: 'Hence, I was able to meet you, my Love',
-  // One last photo after the YCC line, e.g. your first photo together. '' hides it.
-  photo: '',
-  photoAlt: '',
-  photoCaption: '[A few words under the photo]',
+  // A photo tucked into the letter, after its last paragraph. '' hides it.
+  photo: 'photos/moments/moment-2.jpg',
+  photoAlt: 'Our silhouettes in front of the big aquarium tank',
+  photoCaption: 'October 18, 2025. The day you said yes.',
   focus: '50% 40%',
 };
 
@@ -269,7 +346,7 @@ export const finale = {
 // A button at the end of the letter that opens WhatsApp to you.
 // phone: country code + number, digits only (e.g. 6281234567890). '' hides it.
 export const reply = {
-  phone: '',
+  phone: '6281315347175',
   label: 'Tell me what you thought',
   message: '',
 };
@@ -304,11 +381,9 @@ export const moreSongs = [
 export const letter = {
   title: 'Happy birthday,',
   paragraphs: [
-    '[Start with something only you would say. Skip the greeting-card voice.]',
-    '[What you appreciate about her, and what you are proud of her for.]',
-    '[What you hope this next year brings her, and where you hope to be in it.]',
+    'I hope that you like this little gift I prepared for you, sayang. In this big 22 yo, semoga semuanya jadi lebih baik, dan aku harap semua wish aku sebelumnya terwujud ya sayang ehehehehehehe',
   ],
-  signoff: '[Your sign-off, the way you end your messages to her]',
+  signoff: 'With Love,',
 };
 
 // ---------- Letter from the future (optional) ----------
@@ -328,15 +403,15 @@ export const futureLetter = {
 export const openWhen = [
   {
     when: 'you’re tired',
-    paragraphs: ['[For a long day at work. What do you want her to hear when she has nothing left?]'],
+    paragraphs: ['As I said, kamu adalah orang yang sangat kuat dan mungkin kamu ga sadar akan hal itu lewat pembicaraan yang pernah kita lakukan. Tapi as I say to you sayang, setiap hari adalah pembelajaran yang bisa kita ambil untuk jadi lebih baik lagi kedepannya. Dan aku yakin suatu hari nanti, matahari akan datang ke hidup kita lewat semua usaha dan juga ilmu yang sudah kita dapatkan dari semua rasa lelah dan juga pengalaman itu! So keep going sayang, aku akan selalu support kamu apapun yang terjadi!!'],
   },
   {
     when: 'you miss me',
-    paragraphs: ['[Something that sounds exactly like you. A memory, a promise, an inside joke.]'],
+    paragraphs: ['xixixixi sayang aku selalu suka kalau misalnya kamu lagi kangen sama aku, aku selalu merasa disayang dan ditunggu kehadirannya. i always wish that we can settle for our life in this young age dan akhirnya kita bisa hidup bersama secepatnya dimasa depan. If you miss me today, berarti kita lagi memperjuangkan itu. SO JUST REMEMBER THAT WE ARE WORKING FOR THE LIFE THAT WE WANT IN THE FUTURE. Aku akan tetap miss you, but dengan pemahaman yang berbeda dan motivasi biar ga usah kangen kangen lagi HAHAHAHAH'],
   },
   {
     when: 'you doubt yourself',
-    paragraphs: ['[What you see in her that she forgets on bad days. Be specific.]'],
+    paragraphs: ['aku rasa sih tidak perlu ada yang di ragukan dari diri kamu sayang. kamu itu cantik, lucu, pinter, rajin, masakannya enak. dan dari sudut pandang aku, kamu itu udah perfect dan banyak banget hal positif yang bisa aku lihat dari kamu. jadi berbanggalah dengan diri kamu sekarang. jangan pernah dengerin kata kata jelek dari orang lain, just be yourself. but eventually kalau kamu masih doubt yourself, berarti kamupun sadar kalau misalnya diri kamu bisa aja jadi lebih baik dari hari ini. SO, USE IT AS MOTIVATION JUGA YAAAA.'],
   },
 ];
 
@@ -416,6 +491,10 @@ export const ui = {
   gateWhen: 'This sky opens on November 1, at midnight.',
   gateStar: 'Not yet. Soon.',
   gateUnits: ['day', 'hour', 'minute', 'second'],
+  passTitle: 'One last thing, Sayang...',
+  passPlaceholder: 'Your answer',
+  passGo: 'Open',
+  passWrong: 'Hmm, not that one. Try again?',
   soundOn: 'Sound on',
   soundOff: 'Sound off',
   previewMissing: (what) => `Preview only: add ${what} in content.js`,

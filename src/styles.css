@@ -1340,11 +1340,13 @@ button {
   margin-top: 36px;
 }
 .odds-row {
+  container-type: inline-size;
   padding: 26px 0 30px;
   border-top: 1px solid var(--line);
 }
+/* Long numbers shrink to fit the row (--len: characters in the final number). */
 .odds-num {
-  font: 350 clamp(68px, 18vw, 116px) / 0.95 var(--serif);
+  font: 350 min(clamp(68px, 18vw, 116px), 100cqi / var(--len) / 0.5) / 0.95 var(--serif);
   font-variation-settings: 'opsz' 144, 'SOFT' 100;
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: -0.02em;
@@ -1715,8 +1717,45 @@ button {
 .gate.leaving .gate-title,
 .gate.leaving .gate-when,
 .gate.leaving .gate-count,
-.gate.leaving .gate-note {
+.gate.leaving .gate-note,
+.gate.leaving .gate-pass {
   animation: intro-out 0.7s var(--ease) forwards;
+}
+.gate-pass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 340px);
+}
+.gate-pass .gate-when {
+  max-width: 30ch;
+  line-height: 1.5;
+}
+.gate-pass input {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 22px;
+  padding: 0 14px;
+  font: italic 400 18px / 1.3 var(--serif);
+  text-align: center;
+  color: var(--ivory);
+  background: var(--midnight);
+  border: 1px solid rgba(169, 192, 255, 0.35);
+  border-radius: 4px;
+  animation: fade 1.4s 2s both;
+}
+.gate-pass input::placeholder {
+  color: #7d88aa;
+}
+.gate-pass input:focus {
+  outline: 2px solid var(--blue-lt);
+  outline-offset: 1px;
+}
+.gate-wrong {
+  min-height: 1.5em;
+  margin: 10px 0 6px;
+  font-size: 14px;
+  color: var(--amber);
 }
 @keyframes gate-nudge {
   35% {
@@ -2959,4 +2998,17 @@ a.ticket:hover {
     transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* The closing photo, tucked into the letter. */
+.paper .finale-photo {
+  margin-top: 30px;
+  animation-delay: 0.6s;
+}
+.paper .finale-photo-frame {
+  background: #fff;
+}
+.paper .finale-photo figcaption {
+  text-align: center;
+  color: #2a3350;
 }

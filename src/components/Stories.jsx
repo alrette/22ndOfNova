@@ -202,7 +202,7 @@ function OddsRow({ item, days }) {
   const shown = numeric === null ? item.value : n.toLocaleString('en-US');
   return (
     <div className="odds-row" ref={ref}>
-      <p className="odds-num">
+      <p className="odds-num" style={{ '--len': String(numeric === null ? item.value : numeric.toLocaleString('en-US')).length }}>
         <span aria-hidden="true">{shown}</span>
         <span className="sr-only">{numeric === null ? item.value : numeric.toLocaleString('en-US')}</span>
       </p>
